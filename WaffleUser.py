@@ -1,15 +1,13 @@
-import pymongo
+from pymongo import MongoClient
 import pprint
 
 
-client = pymongo.MongoClient()
-iron = client['WaffleIron_DB']
-
-# users will be collection modified in this file
-users = iron['users']
+def setPath():
+    return MongoClient()['WaffleIron_DB']['users']
 
 
 def createUser(ID, pWord, contact, crn=[], role="PROF"):
+    users = setPath()
     userPost = {
         "_id": ID,
         "pass": pWord,
@@ -21,16 +19,19 @@ def createUser(ID, pWord, contact, crn=[], role="PROF"):
 
 
 def updateContact(ID, contact):
+    users = setPath()
     user = users.find_one({"_id": ID})
     users.update_one(user, {"$set": {"contactInfo": contact}})
 
 def deleteUser(ID):
+    users = setPath()
     user = users.find_one({"_id": ID})
     users.delete_one(user)
     print("User: " + ID + " has been deleted.")
     # return True
 
 def setRole(ID, role):
+    users = setPath()
     user = users.find_one({"_id": ID})
     users.update_one(user, {"$set": {"role": role}})
 
@@ -40,15 +41,18 @@ def changePass():
     return
 
 def addCRN(ID, crn):
+    users = setPath()
     user = users.find_one({"_id": ID})
     users.update_one(user, {"$push": {"CRN": crn}})
 
 def removeCRN(ID, crn):
+    users = setPath()
     user = users.find_one({"_id": ID})
     users.update_one(user, {"$pull": {"CRN": crn}})
 
 def main():
-    if(users.find_one({"_id": "BrianID"})):
+    users = setPath()
+    if users.find_one({"_id": "BrianID"}):
         deleteUser("BrianID")
 
     createUser("BrianID", "BrianPass", ["Brian", "Brian@Waffles.org", 3303232210], [40000, 50000], "ADMIN")
