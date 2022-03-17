@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+  <title>Waffle Iron</title>
+</head>
+
+<body>
+  <div class="header">
+    <p>Instructor View</p>
+    <div class="dropdown" data-dropdown>
+      <button class="link" data-dropdown-button>My Courses</button>
+
+      <div class="dropdown-contents">
+        {% for i in testCourses %}
+        <div class="courses">
+          <a href="#">{{ i }}</a>
+          <a href="#">{{ testCourses[i] }}</a>
+        </div>
+        {% endfor %}
+
+    </div>
+  </div>
+
+  <div class="checklist">
+    <div class="checklist-title">
+       12393: CS45203 - Computer Network Security
+    </div>
+    {% for i in range(0, fieldsLen) %}
+    <div class="checklist-element">
+      <input class="syllabus-fields" type="checkbox" name="syllabus-fields" value="1" onchange="displayField()">{{ defaultFields[i] }}
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="sFields">
+    <fieldset class="description">
+      <legend>Course Description</legend>
+      <textarea class="course-description" name="course-description"></textarea>
+    </fieldset>
+    
+  </div>
+</body>
+</html>
