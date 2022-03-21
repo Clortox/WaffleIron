@@ -39,10 +39,13 @@
   </div>
 
   <div class="sFields">
-    <fieldset class="description">
-      <legend>Course Description</legend>
-      <textarea class="course-description" name="course-description"></textarea>
+    {% for i in range(0, fieldsLen) %}
+    <fieldset class="fieldInfo">
+      <legend>{{ defaultFields[i] }}</legend>
+        <textarea onkeyup="counter(this)" class="course-description" name="course-description"></textarea>
+        <span class="counter">Words: 0</span>
     </fieldset>
+    {% endfor %}
     
   </div>
 </body>

@@ -13,3 +13,11 @@ document.addEventListener('click', e => {
 		dropdown.classList.remove('active');
 	});
 });
+
+
+function counter(self) {
+	var spaces = self.value.match(/\S+/g);
+	var words = spaces ? spaces.length : 0;
+
+	self.nextElementSibling.innerHTML = "Words: " + words
+}
