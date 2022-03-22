@@ -8,7 +8,7 @@ body {
 	border: none;
 	text-decoration: none;
 	color: #424242;
-	font-family: inherit;
+	font-family: serif;
 	font-size: inherit;
 	cursor: pointer;
 	padding: 0;
@@ -90,6 +90,10 @@ body {
 .counter {
 	font-size: small;
 	margin-top: 8px;
+}
+
+.hide {
+	display: none;
 }
 
 .course-description {

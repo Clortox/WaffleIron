@@ -15,6 +15,15 @@ document.addEventListener('click', e => {
 });
 
 
+function displayField(self, fieldName) {
+	var field = document.getElementById(fieldName + "-info");
+	if(self.checked)
+		field.classList.remove('hide');
+	else 
+		field.classList.add('hide');
+}
+
+
 function counter(self) {
 	var spaces = self.value.match(/\S+/g);
 	var words = spaces ? spaces.length : 0;

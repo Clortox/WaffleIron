@@ -32,19 +32,21 @@
        12393: CS45203 - Computer Network Security
     </div>
     {% for i in range(0, fieldsLen) %}
-    <div class="checklist-element">
-      <input class="syllabus-fields" type="checkbox" name="syllabus-fields" value="1" onchange="displayField()">{{ defaultFields[i] }}
+    <div class="checklist-element" id="{{ defaultFields[i] }}-checklist" >
+      <input class="syllabus-fields" type="checkbox" name="syllabus-fields" value="1" onchange="displayField(this, '{{ defaultFields[i] }}')">
+          {{ defaultFields[i] }}
     </div>
     {% endfor %}
   </div>
 
   <div class="sFields">
+
     {% for i in range(0, fieldsLen) %}
-    <fieldset class="fieldInfo">
-      <legend>{{ defaultFields[i] }}</legend>
-        <textarea onkeyup="counter(this)" class="course-description" name="course-description"></textarea>
-        <span class="counter">Words: 0</span>
-    </fieldset>
+      <fieldset class="fieldInfo hide" id="{{ defaultFields[i] }}-info">
+        <legend>{{ defaultFields[i] }}</legend>
+          <textarea maxlength="1000" onkeyup="counter(this)" class="course-description" name="course-description"></textarea>
+          <span class="counter">Words: </span>
+      </fieldset>
     {% endfor %}
     
   </div>
