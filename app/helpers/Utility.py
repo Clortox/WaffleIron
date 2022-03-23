@@ -58,6 +58,31 @@ def docToBase64(doc):
     buffer.seek(0)
     return b64decode(buffer.getvalue())
 
+
+# Parse data out of an excel file
+# Takes an io.BytesIO type
+def parseExcelFile(excel_file):
+    rows_to_skip = 0
+    wb = pd.read_excel(excel_file)
+
+    # the beginning of the header of the file has more than two rows, therefore
+    # we can reason the second row will not be NaN. Therefore, we can reason
+    # that the first row with data there is the header row
+    while not isinstance(wb.iloc[rows_to_skip][1], str):
+        wb.drop(index=rows_to_skip)
+        rows_to_skip += 1
+
+    # we add 1 to rows_to_skip as the top row is automatically set as the name
+    # of the column, and therefore not indexable the first time we read the
+    # file
+    rows_to_skip += 1
+
+    #re import the document, skipping the correct rows
+    wb = pd.read_excel(excel_file, skiprows=rows_to_skip)
+
+    #TODO extract data
+
+
 # Jsonifies the passed object, and makes a response object out of it
 def sendResponse(result):
     resp = make_response(jsonify(result))
