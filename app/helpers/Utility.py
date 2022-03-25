@@ -7,6 +7,8 @@ from docx.enum.table import WD_TABLE_ALIGNMENT
 import io
 import datetime
 
+from app.models.ExcelData import exceldata
+
 # Generates a Document object containing all the info for the Syllabus
 def generateSyllabus(professor, course, CRN):
     # Compile time settings
