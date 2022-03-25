@@ -18,7 +18,7 @@ def deletepolicy(pId):
     WafflePolicy = setPath()
     policy = WafflePolicy.find_one({'_id': pId})
     WafflePolicy.delete_one(policy)
-    print("policy " + ID + " has been deleted.")
+    print("policy " + pId + " has been deleted.")
 
 def updatepolicyname(pId,policyname):
     WafflePolicy = setPath()
@@ -37,12 +37,17 @@ def get_policy(pId):
 
 
 def main():
+    # Uncomment this next line if an issue occurs and you need to clear the db of the test data!
+    # deletepolicy('123')
+
     addpolicy('123',"university","This is university policy")
     print(get_policy('123'))
     updatepolicyname('123',"Ishva policy")
     print(get_policy('123'))
     updatepolicydata('123',"This is Ishva policy")
     print(get_policy('123'))
+
+    deletepolicy('123')
 
 
 if __name__ == "__main__":
