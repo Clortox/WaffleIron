@@ -10,45 +10,78 @@
   <title>Waffle Iron</title>
 </head>
 
-<body>
+<body onload="initialCheck()">
   <div class="header">
-    <p>Instructor View</p>
-    <div class="dropdown" data-dropdown>
-      <button class="link" data-dropdown-button>My Courses</button>
+    <h1>Instructor View</h1>
+    </div>
+  </div>
 
-      <div class="dropdown-contents">
-        {% for i in testCourses %}
-        <div class="courses">
-          <a href="#">{{ i }}</a>
-          <a href="#">{{ testCourses[i] }}</a>
+  <div class="main-div">
+    <div class="checklist">
+      <div class="section-title">
+         12393: CS45203 - Computer Network Security
+      </div>
+
+      {% for i in range(0, fieldsLen) %}
+      <label for="{{ defaultFields[i] }}">
+        <div class="checklist-element" id="{{ defaultFields[i] }}-checklist" value="yes">
+            <input class="syllabus-fields" 
+                   type="checkbox" 
+                   name="{{ defaultFields[i] }}" 
+                   id="{{ defaultFields[i] }}" 
+                   value="yes" 
+                   onchange="displayField(this, '{{ defaultFields[i] }}')">{{ defaultFields[i] }}
         </div>
-        {% endfor %}
+      </label>
+      {% endfor %}
 
     </div>
-  </div>
 
-  <div class="checklist">
-    <div class="checklist-title">
-       12393: CS45203 - Computer Network Security
+    <div class="sFields">
+      <div class="section-title">
+         Syllabus Fields
+      </div>
+
+      {% for i in range(0, fieldsLen) %}
+        <fieldset class="fieldInfo hide" id="{{ defaultFields[i] }}-info">
+          <legend>{{ defaultFields[i] }}</legend>
+
+            {% if defaultFields[i] == "Contact Information" or defaultFields[i] == "Assistant Information" %}
+              <input type="text" 
+                     class="contact-info" 
+                     name="name" 
+                     id="name" 
+                     placeholder="Name">
+                     <br>
+              <input type="text" 
+                     class="contact-info" 
+                     name="email" 
+                     id="email" 
+                     placeholder="Email">
+                     <br>
+              <input type="text" 
+                     class="contact-info" 
+                     name="phone" 
+                     id="phone" 
+                     placeholder="Phone Number [ex: (330) 123-4567]">
+              <input type="text" 
+                     class="contact-info" 
+                     name="office-hours" 
+                     id="office-hours" 
+                     placeholder="Office Hours">
+
+            {% else %}
+              <textarea maxlength="1000" 
+                        onkeyup="wordCounter(this)" 
+                        class="course-description" 
+                        name="course-description">
+              </textarea>
+              <span class="counter">Words: </span>
+            {% endif %}
+
+        </fieldset>
+      {% endfor %}
     </div>
-    {% for i in range(0, fieldsLen) %}
-    <div class="checklist-element" id="{{ defaultFields[i] }}-checklist" >
-      <input class="syllabus-fields" type="checkbox" name="syllabus-fields" value="1" onchange="displayField(this, '{{ defaultFields[i] }}')">
-          {{ defaultFields[i] }}
-    </div>
-    {% endfor %}
-  </div>
-
-  <div class="sFields">
-
-    {% for i in range(0, fieldsLen) %}
-      <fieldset class="fieldInfo hide" id="{{ defaultFields[i] }}-info">
-        <legend>{{ defaultFields[i] }}</legend>
-          <textarea maxlength="1000" onkeyup="counter(this)" class="course-description" name="course-description"></textarea>
-          <span class="counter">Words: </span>
-      </fieldset>
-    {% endfor %}
-    
   </div>
 </body>
 </html>

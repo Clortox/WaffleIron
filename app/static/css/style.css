@@ -1,82 +1,49 @@
 body {
 	margin: 10px;
+	display: block;
 	background-color: #f7eacd;
 }
 
-.link {
-	background: none;
-	border: none;
-	text-decoration: none;
-	color: #424242;
-	font-family: serif;
-	font-size: inherit;
-	cursor: pointer;
-	padding: 0;
-}
-
-.dropdown.active > .link,
-.link:hover {
-	color: black;
-}
-
-.dropdown {
-	position: relative;
-	left: 87%;
-	top: -45px;
-}
-
-.dropdown-contents {
+.main-div {
 	position: absolute;
-	top: calc(100% + .25rem);
-	background-color: white;
-	padding: .75rem;
-	border-radius: .25rem;
-	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.2);
-	opacity: 0;
-	pointer-events: none;
-	transform: translateY(-10px);
-	transition: opacity 125ms ease-in-out, transform 125ms ease-in-out;
-}
-
-
-.dropdown.active > .link + .dropdown-contents {
-	opacity: 1;
-	transform: translateY(0px);
-	pointer-events: auto;
-}
-
-.courses a {
-	display: inline-block;
-	text-decoration: none;
-	right: 0;
+	height: 90%;
+	width: 95%;
 }
 
 .checklist {
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 10;
 	background-color: white;
 	border-radius: 4px;
-	float: left;
-	height: 85vh;
-	width: 25vw;
+	height: 95%;
+	width: 25%;
 	overflow-y: auto;
 	border: 2px solid saddlebrown;
 	padding: 10px;
-	margin-right: 0px;
 }
 
 .sFields {
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 10;
+	right: 0;
 	background-color: white;
 	border-radius: 4px;
-	float: right;
-	height: 85vh;
-	width: 65vw;
-	overflow-y: auto;
-	border: 2px solid saddlebrown;
 	padding: 10px;
+	width: 65%;
+	height: 95%;
+	overflow-y: scroll;
+	border: 2px solid saddlebrown;
 }
 
-.checklist-title {
+.section-title {
 	padding-bottom: 10px;
 	border-bottom: 2px solid saddlebrown;
+	margin-bottom: 10px;
 }
 
 .checklist-element {
@@ -102,4 +69,9 @@ body {
 	box-sizing: border-box;
 	resize: vertical;
 	font-family: serif;
+}
+
+.contact-info {
+	margin: 5px;
+	width: 95%;
 }

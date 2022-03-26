@@ -12,6 +12,7 @@ testCourses = {20145: "CS43203 - Systems Programming",
 defaultFields = [
     "Course Times",
     "Contact Information",
+    "Assistant Information",
     "Course Description",
     "Prerequisites",
     "Kent Core Fulfillments",

@@ -1,30 +1,31 @@
-document.addEventListener('click', e => {
-	const isDropdownButton = e.target.matches("[data-dropdown-button]");
-	if(!isDropdownButton && e.target.closest('[data-dropdown]') != null) return;
+function initialCheck() {
+	var checkboxes = document.querySelectorAll("input.syllabus-fields"), statuses = [], ids = [];
 
-	let currentDropdown
-	if(isDropdownButton) {
-		currentDropdown = e.target.closest('[data-dropdown]');
-		currentDropdown.classList.toggle('active');
-	}
-
-	document.querySelectorAll("[data-dropdown].active").forEach(dropdown => {
-		if(dropdown === currentDropdown) return;
-		dropdown.classList.remove('active');
+	Array.prototype.forEach.call(checkboxes, function(elem) {
+		statuses.push(elem.checked);
+		ids.push(elem.id);
 	});
-});
 
+	let field;
+	for(let i = 0; i <= statuses.length; i++)
+		if(statuses[i]) {
+			field = document.getElementById(ids[i] + "-info");
+			field.classList.remove('hide');
+		}
+}
 
 function displayField(self, fieldName) {
 	var field = document.getElementById(fieldName + "-info");
-	if(self.checked)
+	if(self.checked) {
 		field.classList.remove('hide');
-	else 
+	}
+	else {
 		field.classList.add('hide');
+	}
 }
 
 
-function counter(self) {
+function wordCounter(self) {
 	var spaces = self.value.match(/\S+/g);
 	var words = spaces ? spaces.length : 0;
 
