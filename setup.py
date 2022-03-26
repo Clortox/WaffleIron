@@ -8,6 +8,9 @@ setup(
         'flask',
         'Flask-PyMongo',
         'config',
+        'python-docx',
+        'pandas',
+        'openpyxl',
     ],
 
 )
