@@ -11,9 +11,25 @@
 </head>
 
 <body onload="initialCheck()">
-  <div class="header">
-    <h1>Instructor View</h1>
+  <div class="navbar">
+    <div class="dropdown">
+      <button class="dropdown-button" onclick="dropdown()">
+        My Courses
+      </button>
+      <div class="course-list" id="course-list">
+        
+      {% for i in range(0, courseLen) %}
+        <a href="#">{{ testCourses[i] }}</a>
+      {% endfor %}
+
+      </div>
     </div>
+
+    <a href="#">ACM Requirements</a>
+    <a href="#">Copy to another CRN</a>
+    <a href="#">Save</a>
+    <a href="#">Export</a>
+    <a href="#">Logout</a>
   </div>
 
   <div class="main-div">

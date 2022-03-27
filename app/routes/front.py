@@ -6,9 +6,9 @@ from app.controllers.HomeController import homecontroller
 
 front = Blueprint("front", __name__)
 
-testCourses = {20145: "CS43203 - Systems Programming", 
-               12412: "CS49999 - Capstone", 
-               12393: "CS45203 - Computer Network Security"}
+testCourses = ["20145: CS43203 - Systems Programming", 
+               "12412: CS49999 - Capstone", 
+               "12393: CS45203 - Computer Network Security"]
 defaultFields = [
     "Course Times",
     "Contact Information",

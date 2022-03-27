@@ -14,6 +14,26 @@ function initialCheck() {
 		}
 }
 
+
+function dropdown() {
+	document.getElementById("course-list").classList.toggle("show");
+}
+
+
+window.onclick = function(event) {
+	if(!event.target.matches('.dropdown-button')) {
+		var dropdowns = document.getElementsByClassName("course-list");
+
+		for(let i = 0; i < dropdowns.length; i++) {
+			var openDropdown = dropdowns[i];
+
+			if(openDropdown.classList.contains('show'))
+				openDropdown.classList.remove('show');
+		}
+	}
+}
+
+
 function displayField(self, fieldName) {
 	var field = document.getElementById(fieldName + "-info");
 	if(self.checked) {
