@@ -22,6 +22,22 @@ defaultFields = [
     "Course Schedule"
 ]
 
+requiredFields = [
+    "Kent Core Courses",
+    "WIC Courses",
+    "Diversity Courses",
+    "ELR Courses",
+    "Health and Safety",
+    "Copyright and Intellectual Property Rights",
+    "Registration Requirement",
+    "Course Withdrawal Deadlines",
+    "Student Accessibility Policy",
+    "Student Cheating and Plagiarism",
+    "Respectful Student Conduct",
+    "Diversity",
+    "Student Survey of Instruction (SSI)"
+]
+
 @front.route('/', methods=['GET'])
 def home():
     return homecontroller.index()
@@ -33,4 +49,16 @@ def instructor():
         fieldsLen = len(defaultFields),
         testCourses = testCourses,
         courseLen = len(testCourses)
+    )
+
+@front.route('/administrator', methods=['GET', 'POST'])
+def administrator():
+    return render_template("administrator.html",
+        requiredFields = requiredFields,
+        fieldsLen = len(requiredFields)
+    )
+
+@front.route('/scheduler', methods=['GET', 'POST'])
+def scheduler():
+    return render_template("scheduler.html"
     )

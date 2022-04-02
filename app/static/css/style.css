@@ -23,6 +23,15 @@ body {
 	text-decoration: none;
 }
 
+.navbar b {
+	float: right;
+	font-size: 16px;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
 
 .dropdown {
 	float: right;
@@ -47,6 +56,9 @@ body {
 	background-color: rgb(239, 171, 0);
 }
 
+.navbar  b:hover, .dropdown:hover .dropdown-button, .dropdown-button:focus {
+	background-color: rgb(239, 171, 0);
+}
 
 .course-list {
 	float: left;
@@ -103,6 +115,28 @@ body {
 	padding: 10px;
 }
 
+.table {
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 10;
+	background-color: white;
+	border-radius: 4px;
+	height: 95%;
+	width: 95%;
+	overflow-y: auto;
+	overflow-x: auto;
+	border: 2px solid saddlebrown;
+	padding: 10px;
+}
+
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+	padding: 6px;
+  }
+
 .sFields {
 	position: absolute;
 	margin-left: auto;
@@ -122,6 +156,15 @@ body {
 	padding-bottom: 10px;
 	border-bottom: 2px solid saddlebrown;
 	margin-bottom: 10px;
+	font-weight: bold;
+}
+
+.scheduler-title {
+	padding-bottom: 10px;
+	border-bottom: 2px solid saddlebrown;
+	margin-bottom: 10px;
+	text-align: center;
+	font-weight: bold;
 }
 
 .checklist-element {
