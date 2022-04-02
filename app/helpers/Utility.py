@@ -82,8 +82,11 @@ def parseExcelFile(excel_file):
     #re import the document, skipping the correct rows
     wb = pd.read_excel(excel_file, skiprows=rows_to_skip)
 
-    #TODO extract data
+    #drop last row, if its the date the file was generated on
+    if isinstance(wb.tail(1).iloc[0][0], datetime.datetime):
+        wb.drop(wb.tail(1).index, inplace=True)
 
+    #TODO extract data
 
 # Jsonifies the passed object, and makes a response object out of it
 def sendResponse(result):
