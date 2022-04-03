@@ -37,5 +37,5 @@ def document(CRN):
 
 @front.route('/document/excel/', methods=['POST'])
 def excel():
-    f = request.files['file']
+    f = request.files['excelFile']
     return 'file uploaded'
