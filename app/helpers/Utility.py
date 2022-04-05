@@ -9,7 +9,7 @@ import numpy as np
 import io
 import datetime
 
-from app.models.ExcelData import exceldata
+from app.models.ExcelData import ExcelData
 
 # Generates a Document object containing all the info for the Syllabus
 def generateSyllabus(professor, course, CRN):
@@ -97,21 +97,25 @@ def parseExcelFile(excel_file):
         # CASE 1: This is a continued line, we should populate the previous
         # CRN's values
         if np.isnan(wb["CRN"][row]):
+            # set row, eliminate NaN values
+            currRow = wb.iloc[row]
+            currRow = currRow.fillna('')
+
             # update meeting places
-            if not np.isnan(wb["Bldg"][row]):
+            if not currRow["Bldg"] == '':
                 ret[prev_crn].multipleMeetingPlaces = True
                 ret[prev_crn].building += ";" + wb["Bldg"][row]
-            if not np.isnan(wb["Room"][row]):
+            if not currRow["Room"] == '':
                 ret[prev_crn].multipleMeetingPlaces = True
                 ret[prev_crn].room += ";" + wb["Room"][row]
 
             # update meeting time
-            if not np.isnan(wb["Times"][row]):
+            if not currRow["Times"] == '':
                 ret[prev_crn].multipleMeetingTimes = True
                 ret[prev_crn].time += ";" + wb["Times"][row]
 
             # update meeting days
-            if not np.isnan(wb["Meeting Days"][row]):
+            if not currRow["Meeting Days"] == '':
                 ret[prev_crn].multipleMeetingDays = True
                 ret[prev_crn].meetingDays += ";" + wb["Meeting Days"][row]
 
@@ -130,14 +134,14 @@ def parseExcelFile(excel_file):
 
             ret[prev_crn].CRN = prev_crn
 
-            ret[prev_crn].courseNumber = wb["Course#"][row]
-            ret[prev_crn].section = wb["section"][row]
-            ret[prev_crn].title = wb["Title"][row]
-            ret[prev_crn].instructorEmail = wb["Instructor Email Address"][row]
-            ret[prev_crn].building = wb["Bldg"][row]
-            ret[prev_crn].room = wb["Room"][row]
-            ret[prev_crn].time = wb["Times"][row]
-            ret[prev_crn].meetingDays = wb["Meeting Days"][row]
+            ret[prev_crn].courseNumber    = currRow["Course#"]
+            ret[prev_crn].section         = currRow["Section"]
+            ret[prev_crn].title           = currRow["Title"]
+            ret[prev_crn].instructorEmail = currRow["Instructor Email Address"]
+            ret[prev_crn].building        = currRow["Bldg"]
+            ret[prev_crn].room            = currRow["Room"]
+            ret[prev_crn].time            = currRow["Times"]
+            ret[prev_crn].meetingDays     = currRow["Meeting Days"]
 
     return ret
 
