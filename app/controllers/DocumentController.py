@@ -12,8 +12,12 @@ class DocumentController():
 
     def excel(self, excel_file):
         parsedExcelFile = parseExcelFile(excel_file)
+        ret = {}
+        for key in parsedExcelFile:
+            ret[key] = parsedExcelFile[key].serialize()
+
         #TODO place the returned dictionary into the database
 
-        return parsedExcelFile
+        return ret
 
 documentcontroller = DocumentController()
