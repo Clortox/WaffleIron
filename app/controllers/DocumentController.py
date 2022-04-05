@@ -1,6 +1,6 @@
 from flask import request
 from flask import render_template
-from app.helpers.Utility import generateSyllabus,parseExcelFile
+from app.helpers.Utility import generateSyllabus,parseExcelFile,sendResponse
 
 class DocumentController():
 
@@ -11,7 +11,9 @@ class DocumentController():
         return 'Hello from Document ' + classCRN
 
     def excel(self, excel_file):
-        return {'Message' : "Hello from excel"}
-        pass
+        parsedExcelFile = parseExcelFile(excel_file)
+        #TODO place the returned dictionary into the database
+
+        return parsedExcelFile
 
 documentcontroller = DocumentController()
