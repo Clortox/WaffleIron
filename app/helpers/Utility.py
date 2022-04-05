@@ -4,6 +4,8 @@ from docx import Document
 from docx.shared import Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.table import WD_TABLE_ALIGNMENT
+import pandas as pd
+import numpy as np
 import io
 import datetime
 
@@ -86,7 +88,58 @@ def parseExcelFile(excel_file):
     if isinstance(wb.tail(1).iloc[0][0], datetime.datetime):
         wb.drop(wb.tail(1).index, inplace=True)
 
+    # Dictionary to return
+    ret = {}
+    prev_crn = 0
+
     #TODO extract data
+    for row in wb.index:
+        # CASE 1: This is a continued line, we should populate the previous
+        # CRN's values
+        if np.isnan(wb["CRN"][row]):
+            # update meeting places
+            if not np.isnan(wb["Bldg"][row]):
+                ret[prev_crn].multipleMeetingPlaces = True
+                ret[prev_crn].building += ";" + wb["Bldg"][row]
+            if not np.isnan(wb["Room"][row]):
+                ret[prev_crn].multipleMeetingPlaces = True
+                ret[prev_crn].room += ";" + wb["Room"][row]
+
+            # update meeting time
+            if not np.isnan(wb["Times"][row]):
+                ret[prev_crn].multipleMeetingTimes = True
+                ret[prev_crn].time += ";" + wb["Times"][row]
+
+            # update meeting days
+            if not np.isnan(wb["Meeting Days"][row]):
+                ret[prev_crn].multipleMeetingDays = True
+                ret[prev_crn].meetingDays += ";" + wb["Meeting Days"][row]
+
+        # CASE 2: We have a CRN, then populate new entry
+        else:
+            # set prev CRN
+            prev_crn = wb["CRN"][row]
+
+            # set row, eliminate NaN values
+            currRow = wb.iloc[row]
+            currRow = currRow.fillna('')
+
+            # populate ret dict with ExcelData object, then populate data into
+            # it
+            ret[prev_crn] = ExcelData()
+
+            ret[prev_crn].CRN = prev_crn
+
+            ret[prev_crn].courseNumber = wb["Course#"][row]
+            ret[prev_crn].section = wb["section"][row]
+            ret[prev_crn].title = wb["Title"][row]
+            ret[prev_crn].instructorEmail = wb["Instructor Email Address"][row]
+            ret[prev_crn].building = wb["Bldg"][row]
+            ret[prev_crn].room = wb["Room"][row]
+            ret[prev_crn].time = wb["Times"][row]
+            ret[prev_crn].meetingDays = wb["Meeting Days"][row]
+
+    return ret
 
 # Jsonifies the passed object, and makes a response object out of it
 def sendResponse(result):
