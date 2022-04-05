@@ -104,7 +104,7 @@ def parseExcelFile(excel_file):
             # update meeting places
             if not currRow["Bldg"] == '':
                 ret[prev_crn].multipleMeetingPlaces = True
-                ret[prev_crn].building += ";" + wb["Bldg"][row]
+                ret[prev_crn].building += ";" + wb["Bldg"][row].strip()
             if not currRow["Room"] == '':
                 ret[prev_crn].multipleMeetingPlaces = True
                 ret[prev_crn].room += ";" + wb["Room"][row]
@@ -112,12 +112,12 @@ def parseExcelFile(excel_file):
             # update meeting time
             if not currRow["Times"] == '':
                 ret[prev_crn].multipleMeetingTimes = True
-                ret[prev_crn].time += ";" + wb["Times"][row]
+                ret[prev_crn].time += ";" + wb["Times"][row].strip()
 
             # update meeting days
             if not currRow["Meeting Days"] == '':
                 ret[prev_crn].multipleMeetingDays = True
-                ret[prev_crn].meetingDays += ";" + wb["Meeting Days"][row]
+                ret[prev_crn].meetingDays += ";" + wb["Meeting Days"][row].strip()
 
         # CASE 2: We have a CRN, then populate new entry
         else:
@@ -136,12 +136,12 @@ def parseExcelFile(excel_file):
 
             ret[prev_crn].courseNumber    = currRow["Course#"]
             ret[prev_crn].section         = currRow["Section"]
-            ret[prev_crn].title           = currRow["Title"]
-            ret[prev_crn].instructorEmail = currRow["Instructor Email Address"]
-            ret[prev_crn].building        = currRow["Bldg"]
+            ret[prev_crn].title           = currRow["Title"].strip()
+            ret[prev_crn].instructorEmail = currRow["Instructor Email Address"].strip()
+            ret[prev_crn].building        = currRow["Bldg"].strip()
             ret[prev_crn].room            = currRow["Room"]
-            ret[prev_crn].time            = currRow["Times"]
-            ret[prev_crn].meetingDays     = currRow["Meeting Days"]
+            ret[prev_crn].time            = currRow["Times"].strip()
+            ret[prev_crn].meetingDays     = currRow["Meeting Days"].strip()
 
     return ret
 
