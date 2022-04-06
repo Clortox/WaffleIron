@@ -131,7 +131,31 @@ body {
 	padding: 10px;
 }
 
-table, th, td {
+.table {
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 10;
+	background-color: white;
+	border-radius: 4px;
+	height: 95%;
+	width: 95%;
+	overflow-y: auto;
+	overflow-x: auto;
+	border: 2px solid saddlebrown;
+	padding: 10px;
+}
+
+table{
+	width: 100%;
+	table-layout: auto;
+	border: 1px solid black;
+	border-collapse: collapse;
+	padding: 6px;
+}
+
+th, td {
 	border: 1px solid black;
 	border-collapse: collapse;
 	padding: 6px;
