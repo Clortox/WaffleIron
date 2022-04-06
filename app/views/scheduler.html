@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+  <title>Waffle Iron</title>
+</head>
+
+<body onload="initialCheck()">
+  <div class="navbar">
+    <b href="#">Logout</b>
+    <b href="#">Save</b>
+    <b href="#">Upload from Excel</b>
+  </div>
+
+  <div class="main-div">
+    <div class="table">
+      <div class="scheduler-title">
+         Assign CRNs
+        </div>
+        <table>
+         {% for i in range(200) %}
+            {% if i == 0%}
+            <tr>
+               <th>CRN</th>
+               <th>Course Number</th>
+               <th>Section</th>
+               <th>Course Name</th>
+               <th>Instructor Email</th>
+               <th>Building</th>
+               <th>Room Number</th>
+               <th>Meeting Days</th>
+            </tr>
+            {% else %}
+            <tr>
+               <th><input></th>
+               <th><input></th>
+               <th><input></th>
+               <th><input></th>
+               <th><input></th>
+               <th><input></th>
+               <th><input></th>
+               <th><input></th>
+            </tr>
+            {% endif %}
+         {% endfor %}
+         </table>
+      </div>
+</body>
+</html>

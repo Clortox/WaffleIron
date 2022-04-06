@@ -1,18 +1,28 @@
-import pymongo
+from pymongo import MongoClient
 import pprint
 
 
-client = pymongo.MongoClient()
-iron = client['WaffleIron_DB']
-
-# users will be collection modified in this file
-users = iron['users']
+def setPath():
+    return MongoClient()['WaffleIron_DB']['users']
 
 
-def createUser(ID, pWord, contact, crn=[], role="PROF"):
+def confirmLogin(ID, hash):
+    users = setPath()
+    try:
+        profile = users.find_one({"_id": ID})
+        if profile["hash"] == hash:
+            return True
+        else:
+            return False
+    except TypeError:
+        return False
+
+
+def createUser(ID, hash, contact, crn=[], role="PROF"):
+    users = setPath()
     userPost = {
         "_id": ID,
-        "pass": pWord,
+        "hash": hash,
         "contactInfo": contact,
         "role": role,
         "CRN": crn
@@ -21,34 +31,70 @@ def createUser(ID, pWord, contact, crn=[], role="PROF"):
 
 
 def updateContact(ID, contact):
+    users = setPath()
     user = users.find_one({"_id": ID})
     users.update_one(user, {"$set": {"contactInfo": contact}})
 
+
 def deleteUser(ID):
+    users = setPath()
     user = users.find_one({"_id": ID})
     users.delete_one(user)
     print("User: " + ID + " has been deleted.")
     # return True
 
+
 def setRole(ID, role):
+    users = setPath()
     user = users.find_one({"_id": ID})
     users.update_one(user, {"$set": {"role": role}})
+
 
 # This is a temporary placement just to access and change the password.
 # This will be moved when more security and login stuff is added.
 def changePass():
     return
 
+
 def addCRN(ID, crn):
+    users = setPath()
     user = users.find_one({"_id": ID})
     users.update_one(user, {"$push": {"CRN": crn}})
 
+
 def removeCRN(ID, crn):
+    users = setPath()
     user = users.find_one({"_id": ID})
     users.update_one(user, {"$pull": {"CRN": crn}})
 
+
+# Getter methods for the user class
+def getUserCRNs(ID):
+    users = setPath()
+    return users.find_one({'_id': ID})['CRN']
+
+
+def getUserContact(ID):
+    users = setPath()
+    return users.find_one({'_id': ID})['contactInfo']
+
+
+def getUserRole(ID):
+    users = setPath()
+    return users.find_one({"_id": ID})["role"]
+
+
+def confirmUserCRN(ID, CRN):
+    CRNList = getUserCRNs(ID)
+    if CRNList.count(CRN) > 0:
+        return True
+    else:
+        return False
+
+
 def main():
-    if(users.find_one({"_id": "BrianID"})):
+    users = setPath()
+    if users.find_one({"_id": "BrianID"}):
         deleteUser("BrianID")
 
     createUser("BrianID", "BrianPass", ["Brian", "Brian@Waffles.org", 3303232210], [40000, 50000], "ADMIN")

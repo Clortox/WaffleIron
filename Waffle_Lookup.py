@@ -33,6 +33,13 @@ def getCourseID(crn):
             return c['_id']
     return 'ER404'
 
+def getCourseCRNs(cID):
+    WaffleCourse = setPath()
+    try:
+        return WaffleCourse.find_one({"_id": cID})['CRNs']
+    except TypeError:
+        return "Course Information Not Found."
+
 
 def DeleteCourse(ID):
     WaffleCourse = setPath()

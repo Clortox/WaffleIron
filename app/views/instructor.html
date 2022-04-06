@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+  <title>Waffle Iron</title>
+</head>
+
+<body onload="initialCheck()">
+<div class="navbar">
+    <div class="dropdown">
+      <button class="dropdown-button" onclick="dropdown()">
+        My Courses
+      </button>
+      <div class="course-list" id="course-list">
+        
+      {% for i in range(0, courseLen) %}
+        <a href="#">{{ testCourses[i] }}</a>
+      {% endfor %}
+
+      </div>
+    </div>
+
+    <a href="https://www.acm.org/binaries/content/assets/education/curricula-recommendations/cc2020.pdf" target="_blank">ACM Requirements</a>
+    <a href="#">Copy to another CRN</a>
+    <a href="#">Save</a>
+    <a href="#">Export</a>
+    <a href="#">Logout</a>
+  </div>
+
+  <div class="main-div">
+    <div class="checklist">
+      <div class="section-title">
+         12393: CS45203 - Computer Network Security
+      </div>
+
+      {% for i in range(0, fieldsLen) %}
+      <label for="{{ defaultFields[i] }}">
+        <div class="checklist-element" id="{{ defaultFields[i] }}-checklist" value="yes">
+            <input class="syllabus-fields" 
+                   type="checkbox" 
+                   name="{{ defaultFields[i] }}" 
+                   id="{{ defaultFields[i] }}" 
+                   value="yes" 
+                   onchange="displayField(this, '{{ defaultFields[i] }}')">{{ defaultFields[i] }}
+        </div>
+      </label>
+      {% endfor %}
+
+    </div>
+
+    <div class="sFields">
+      <div class="section-title">
+         Syllabus Fields
+      </div>
+
+      {% for i in range(0, fieldsLen) %}
+        <fieldset class="fieldInfo hide" id="{{ defaultFields[i] }}-info">
+          <legend>{{ defaultFields[i] }}</legend>
+
+            {% if defaultFields[i] == "Contact Information" or defaultFields[i] == "Assistant Information" %}
+              <input type="text" 
+                     class="contact-info" 
+                     name="name" 
+                     id="name" 
+                     placeholder="Name">
+                     <br>
+              <input type="text" 
+                     class="contact-info" 
+                     name="email" 
+                     id="email" 
+                     placeholder="Email">
+                     <br>
+              <input type="text" 
+                     class="contact-info" 
+                     name="phone" 
+                     id="phone" 
+                     placeholder="Phone Number [ex: (330) 123-4567]">
+              <input type="text" 
+                     class="contact-info" 
+                     name="office-hours" 
+                     id="office-hours" 
+                     placeholder="Office Hours">
+
+            {% else %}
+              <textarea maxlength="1000" 
+                        onkeyup="wordCounter(this)" 
+                        class="description" 
+                        name="description">
+              </textarea>
+              <span class="counter">Words: </span>
+            {% endif %}
+
+        </fieldset>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

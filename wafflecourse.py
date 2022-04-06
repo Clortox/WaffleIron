@@ -120,6 +120,5 @@ def main():
     WaffleCourse.delete_one(file)
 
 
-
 if __name__ == "__main__":
     main()

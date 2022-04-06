@@ -8,6 +8,38 @@ from app.helpers.Utility import sendResponse
 
 front = Blueprint("front", __name__)
 
+testCourses = ["20145: CS43203 - Systems Programming", 
+               "12412: CS49999 - Capstone", 
+               "12393: CS45203 - Computer Network Security"]
+defaultFields = [
+    "Course Times",
+    "Contact Information",
+    "Assistant Information",
+    "Course Description",
+    "Prerequisites",
+    "Kent Core Fulfillments",
+    "Learning Outcomes",
+    "Grading Scale",
+    "Attendance Policy",
+    "Course Schedule"
+]
+
+requiredFields = [
+    "Kent Core Courses",
+    "WIC Courses",
+    "Diversity Courses",
+    "ELR Courses",
+    "Health and Safety",
+    "Copyright and Intellectual Property Rights",
+    "Registration Requirement",
+    "Course Withdrawal Deadlines",
+    "Student Accessibility Policy",
+    "Student Cheating and Plagiarism",
+    "Respectful Student Conduct",
+    "Diversity",
+    "Student Survey of Instruction (SSI)"
+]
+
 @front.route('/', methods=['GET'])
 def home():
     return homecontroller.index()
@@ -30,8 +62,7 @@ def administrator():
 
 @front.route('/scheduler', methods=['GET', 'POST'])
 def scheduler():
-    return render_template("scheduler.html"
-    )
+    return render_template("scheduler.html")
 
 @front.route('/document/docx/<CRN>', methods=['GET'])
 def document(CRN):
