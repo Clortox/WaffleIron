@@ -18,8 +18,9 @@ def confirmLogin(ID, hash):
         return False
 
 
-def createUser(ID, hash, contact, crn=[], role="PROF"):
+def createUser(ID, hash, contact={}, crn=[], role="PROF"):
     users = setPath()
+
     userPost = {
         "_id": ID,
         "hash": hash,
@@ -92,13 +93,23 @@ def confirmUserCRN(ID, CRN):
         return False
 
 
+
+def getUserInfo(ID):
+    users = setPath()
+    return users.find_one({"_id": ID})
+
+def getUserCRN(ID):
+    users = setPath()
+    user = users.find_one({"_id": ID})
+    return user["CRN"]
+
 def main():
     users = setPath()
-    if users.find_one({"_id": "BrianID"}):
-        deleteUser("BrianID")
+    #for user in users.find({}):
+    #   deleteUser(str(user['_id']))
 
-    createUser("BrianID", "BrianPass", ["Brian", "Brian@Waffles.org", 3303232210], [40000, 50000], "ADMIN")
-    user = users.find_one({"_id": "BrianID"})
+    createUser("brian@email.com", "BrianPass", {'FirstName':'Brian'}, [40000, 50000], "ADMIN")
+    user = users.find_one({"_id": "brian@email.com"})
     uID = user["_id"]
 
     pprint.pprint(user)
@@ -106,31 +117,31 @@ def main():
 
     print("Update Contact:")
     updateContact(uID, ["Brian Lastname", "Last@kent.edu", 4405567342])
-    user = users.find_one({"_id": "BrianID"})
+    user = users.find_one({"_id": "brian@email.com"})
     pprint.pprint(user)
     print("\n\n")
 
     print("Remove Contact Info:")
     updateContact(uID, ["Brian Behnke", 1234567890])
-    user = users.find_one({"_id": "BrianID"})
+    user = users.find_one({"_id": "brian@email.com"})
     pprint.pprint(user)
     print("\n\n")
 
     print("Set Role:")
     setRole(uID, "PROF")
-    user = users.find_one({"_id": "BrianID"})
+    user = users.find_one({"_id": "brian@email.com"})
     pprint.pprint(user)
     print("\n\n")
 
     print("Add CRN:")
     addCRN(uID, 32123)
-    user = users.find_one({"_id": "BrianID"})
+    user = users.find_one({"_id": "brian@email.com"})
     pprint.pprint(user)
     print("\n\n")
 
     print("Remove CRN:")
     removeCRN(uID, 50000)
-    user = users.find_one({"_id": "BrianID"})
+    user = users.find_one({"_id": "brian@email.com"})
     pprint.pprint(user)
     print("\n\n")
 
