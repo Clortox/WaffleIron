@@ -10,6 +10,7 @@ setup(
         'config',
         'python-docx',
         'pandas',
+        'numpy',
         'openpyxl',
     ],
 

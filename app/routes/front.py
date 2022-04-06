@@ -3,6 +3,8 @@ from flask_pymongo import ObjectId
 from ..app import mongo
 from flask import render_template
 from app.controllers.HomeController import homecontroller
+from app.controllers.DocumentController import documentcontroller
+from app.helpers.Utility import sendResponse
 
 front = Blueprint("front", __name__)
 
@@ -60,5 +62,13 @@ def administrator():
 
 @front.route('/scheduler', methods=['GET', 'POST'])
 def scheduler():
-    return render_template("scheduler.html"
-    )
+    return render_template("scheduler.html")
+
+@front.route('/document/docx/<CRN>', methods=['GET'])
+def document(CRN):
+    return documentcontroller.document(CRN)
+
+@front.route('/document/excel/', methods=['POST'])
+def excel():
+    excelDict = documentcontroller.excel(request.files['excelFile'])
+    return sendResponse(excelDict)
