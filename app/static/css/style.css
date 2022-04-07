@@ -9,7 +9,7 @@ body {
 	overflow: hidden;
 	background-color: rgb(0, 57, 118);
 	font-family: Arial, Helvetica, sans-serif;
-	margin-bottom: 20px;
+	margin-bottom: 15px;
 	border-radius: 25px;
 }
 
@@ -20,6 +20,7 @@ body {
 	color: white;
 	text-align: center;
 	padding: 14px 16px;
+	font-family: inherit;
 	text-decoration: none;
 }
 
@@ -29,6 +30,7 @@ body {
 	color: white;
 	text-align: center;
 	padding: 14px 16px;
+	font-family: inherit;
 	text-decoration: none;
 }
 
@@ -70,6 +72,7 @@ body {
 	min-width: 160px;
 	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 	z-index: 1;
+	margin-bottom: auto;
 }
 
 
@@ -97,6 +100,10 @@ body {
 	position: absolute;
 	height: 90%;
 	width: 95%;
+	padding: 0;
+	margin: 0;
+	overflow-x: hidden;
+	margin-bottom: 10px;
 }
 
 .checklist {
@@ -113,12 +120,15 @@ body {
 	overflow-x: auto;
 	border: 2px solid saddlebrown;
 	padding: 10px;
+	margin-bottom: 10px;
 }
 
 .table {
+	grid-auto-columns: auto;
 	position: absolute;
 	margin-left: auto;
 	margin-right: auto;
+	margin-bottom: 10px;
 	left: 0;
 	right: 10;
 	background-color: white;
@@ -126,36 +136,30 @@ body {
 	height: 95%;
 	width: 95%;
 	overflow-y: auto;
-	overflow-x: auto;
+	overflow-x: hidden;
 	border: 2px solid saddlebrown;
-	padding: 10px;
+	padding: 11px;
 }
 
-.table {
-	position: absolute;
-	margin-left: auto;
-	margin-right: auto;
-	left: 0;
-	right: 10;
-	background-color: white;
-	border-radius: 4px;
-	height: 95%;
-	width: 95%;
-	overflow-y: auto;
-	overflow-x: auto;
-	border: 2px solid saddlebrown;
-	padding: 10px;
+html, body {
+    margin: 3px;
+    padding: 3px;
+    overflow-x:hidden;
+	margin-bottom: 5px;
 }
 
 table{
 	width: 100%;
-	table-layout: auto;
+	grid-auto-columns: auto;
+	table-layout: fixed;
 	border: 1px solid black;
 	border-collapse: collapse;
 	padding: 6px;
+	margin: 0;
+	overflow-x: hidden;
 }
 
-th, td {
+tr, th, td {
 	border: 1px solid black;
 	border-collapse: collapse;
 	padding: 6px;
