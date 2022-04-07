@@ -2,6 +2,7 @@
 #date last modified : 4/6/22
 
 #importing the Firebase Library
+from numpy import true_divide
 import pyrebase
 
 #these are the important API Keys
@@ -20,8 +21,14 @@ firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 
 #functions are here. This is just a draft and will modify soon. We might need to use mongodb to extract user information
-def signin():
+def signin(email, password):
     return auth.sign_in_with_user_password(email, password)
 
-def signup():
+def signup(email, password):
     return auth.create_user_email_and_password(email, password)
+
+def confirmpassword(password, cpassword):
+    if(password == cpassword):
+      return True
+    else:
+      return False

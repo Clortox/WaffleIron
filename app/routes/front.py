@@ -62,3 +62,7 @@ def administrator():
 def scheduler():
     return render_template("scheduler.html"
     )
+
+@front.route('/signin', methods=['GET', 'POST'])
+def signin():
+    return render_template("signin.html")
