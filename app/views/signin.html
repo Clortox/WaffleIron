@@ -9,23 +9,19 @@
         <title>Waffle Iron</title>
     </head>
     <body>
-      <center>
-        <div class="logo">
-        </div>
+      </div>
         <div class="signinform">
-            <form>
-              <label for="email">
-                  <input type="email"
-                         placeholder="Enter your email"
-                  >
-              </label>
-              <br>
-              <label for="password">
-                  <input type="password" 
-                  placeholder="Enter your password">
-              </label>
-            </form>
+          <form method="POST">
+            <div class="section-title">Sign in</div>
+
+            <label for="email">Email</label>
+              <input type="email" placeholder="Enter your email" name="email" required>
+
+            <label for="password">Password</label>
+              <input type="password" placeholder="Enter your password" name="password" required>
+
+            <button type="submit">Login</button>
+          </form>
         </div>
-      </center>
     </body>
 </html>
