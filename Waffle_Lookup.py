@@ -43,7 +43,13 @@ def getCourseCRNs(cID):
 
 def DeleteCourse(ID):
     WaffleCourse = setPath()
-    course = WaffleCourse.find_one({'_id': ID})
+    WaffleFiles = MongoClient()['WaffleIron_DB'][ID]
+
+    # Deletes all files from a course when removing a course
+    for file in WaffleFiles.find({}):
+        WaffleFiles.delete_one(file)
+
+
     WaffleCourse.delete_one(course)
     print("Course " + ID + " has been deleted.")
 

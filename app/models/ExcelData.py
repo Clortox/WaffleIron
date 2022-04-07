@@ -4,6 +4,23 @@ class ExcelData():
     def __init__(self):
         pass
 
+    def serialize(self):
+        return {
+            'CRN' :                  self.CRN,
+            'courseNumber':          self.courseNumber,
+            'section':               self.section,
+            'title':                 self.title,
+            'instructorEmail':       self.instructorEmail,
+            'building':              self.building,
+            'room':                  self.room,
+            'multipleMeetingPlaces': self.multipleMeetingPlaces,
+            'time':                  self.time,
+            'multipleMeetingTimes':  self.multipleMeetingTimes,
+            'meetingDays':           self.meetingDays,
+            'multipleMeetingDays':   self.multipleMeetingDays,
+        }
+
+
     # these effictivly serve as default values. They will be overwritten
 
     # CRN and course number (IE CS49999)
