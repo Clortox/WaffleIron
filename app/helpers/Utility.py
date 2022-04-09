@@ -150,3 +150,17 @@ def sendResponse(result):
     resp = make_response(jsonify(result))
     resp.mimetype = 'application/json'
     return resp
+
+# Returns the current year
+def getYear():
+    return datetime.datetime.today().year
+
+# Returns the current semester as a string
+def getSemester():
+    today = datetime.datetime.today()
+    if 1 <= today.month <= 5:
+        return 'SPRING'
+    elif 6 <= today.month < 8:
+        return 'SUMMER'
+    else:
+        return 'FALL'
