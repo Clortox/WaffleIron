@@ -1,5 +1,5 @@
 from flask import Flask,request
-from flask_pymongo import PyMongo
+from pymongo import MongoClient
 import config
 import os
 
@@ -11,7 +11,7 @@ else:
     cfg = config.Config(os.path.join(os.path.dirname(__file__),'production.cfg'))
 
 # setup mongo
-app.config['MONGO_DBNAME'] = cfg['MONGO_DBNAME']
-app.config['MONGO_URI'] = cfg['MONGO_URI']
-mongo = PyMongo(app)
+#app.config['MONGO_DBNAME'] = cfg['MONGO_DBNAME']
+#app.config['MONGO_URI'] = cfg['MONGO_URI']
 
+mongo = MongoClient(cfg['MONGO_URI'])[cfg['MONGO_DBNAME']]
