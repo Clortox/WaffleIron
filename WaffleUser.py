@@ -18,7 +18,7 @@ def confirmLogin(ID, hash):
         return False
 
 
-def createUser(ID, hash, contact, crn=[], role="PROF"):
+def createUser(ID, hash, contact={}, crn=[], role="PROF"):
     users = setPath()
     userPost = {
         "_id": ID,
@@ -97,7 +97,7 @@ def main():
     if users.find_one({"_id": "BrianID"}):
         deleteUser("BrianID")
 
-    createUser("BrianID", "BrianPass", ["Brian", "Brian@Waffles.org", 3303232210], [40000, 50000], "ADMIN")
+    createUser("BrianID", "BrianPass", {"firstname": "Brian", "email": "Brian@Waffles.org", "phone": 3303232210}, [40000, 50000], "ADMIN")
     user = users.find_one({"_id": "BrianID"})
     uID = user["_id"]
 

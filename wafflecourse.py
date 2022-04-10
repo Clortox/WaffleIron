@@ -82,7 +82,7 @@ def get_file(course_ID, CRN):
 def get_data(course_ID, CRN):
     cTable = setPath(course_ID)
     file = cTable.find_one({"_id": CRN})
-    return file["cFields"]
+    return file
 
 
 def main():
