@@ -11,6 +11,7 @@ function initialCheck() {
 		if(statuses[i]) {
 			field = document.getElementById(ids[i] + "-info");
 			field.classList.remove('hide');
+			field.disabled = false;
 		}
 }
 
@@ -38,9 +39,11 @@ function displayField(self, fieldName) {
 	var field = document.getElementById(fieldName + "-info");
 	if(self.checked) {
 		field.classList.remove('hide');
+		field.disabled = false;
 	}
 	else {
 		field.classList.add('hide');
+		field.disabled = true;
 	}
 }
 

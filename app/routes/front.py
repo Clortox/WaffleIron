@@ -10,7 +10,9 @@ front = Blueprint("front", __name__)
 
 testCourses = ["20145: CS43203 - Systems Programming", 
                "12412: CS49999 - Capstone", 
-               "12393: CS45203 - Computer Network Security"]
+               "12393: CS45203 - Computer Network Security"
+]
+
 defaultFields = [
     "Course Times",
     "Contact Information",
@@ -44,6 +46,16 @@ requiredFields = [
 def home():
     return homecontroller.index()
 
+@front.route('/saveSuccess', methods=['POST'])
+def sendInfo():
+    descriptions = request.form
+
+    for key in descriptions.keys():
+        for value in descriptions.getlist(key):
+            print(key,":",value)
+
+    return render_template("saveSuccess.html")
+
 @front.route('/instructor', methods=['GET', 'POST'])
 def instructor():
     return render_template("instructor.html",
@@ -62,8 +74,7 @@ def administrator():
 
 @front.route('/scheduler', methods=['GET', 'POST'])
 def scheduler():
-    return render_template("scheduler.html"
-    )
+    return render_template("scheduler.html")
 
 @front.route('/signin', methods=['GET', 'POST'])
 def signin():

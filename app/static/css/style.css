@@ -24,6 +24,19 @@ body {
 	text-decoration: none;
 }
 
+.navbar input[type=submit] {
+	float: left;
+	font-size: 16px;
+	color: white;
+	background-color: rgb(0, 57, 118);
+	cursor: pointer;
+	border: none;
+	text-align: center;
+	padding: 14px 16px;
+	font-family: inherit;
+	text-decoration: none;
+}
+
 .navbar b {
 	float: right;
 	font-size: 16px;
@@ -54,7 +67,7 @@ body {
 }
 
 
-.navbar  a:hover, .dropdown:hover .dropdown-button, .dropdown-button:focus {
+.navbar  a:hover, input[type=submit]:hover, .dropdown:hover .dropdown-button, .dropdown-button:focus {
 	background-color: rgb(239, 171, 0);
 }
 

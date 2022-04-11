@@ -27,7 +27,7 @@
 
     <a href="https://www.acm.org/binaries/content/assets/education/curricula-recommendations/cc2020.pdf" target="_blank">ACM Requirements</a>
     <a href="#">Copy to another CRN</a>
-    <a href="#">Save</a>
+    <input type="submit" form="syllabus-fields-text" value="Save">
     <a href="#">Export</a>
     <a href="#">Logout</a>
   </div>
@@ -58,45 +58,72 @@
          Syllabus Fields
       </div>
 
+      <form action="/saveSuccess" id="syllabus-fields-text" method="POST">
+
       {% for i in range(0, fieldsLen) %}
-        <fieldset class="fieldInfo hide" id="{{ defaultFields[i] }}-info">
+        <fieldset disabled class="fieldInfo hide" id="{{ defaultFields[i] }}-info">
           <legend>{{ defaultFields[i] }}</legend>
 
-            {% if defaultFields[i] == "Contact Information" or defaultFields[i] == "Assistant Information" %}
+            {% if defaultFields[i] == "Contact Information" %}
               <input type="text" 
                      class="contact-info" 
-                     name="name" 
+                     name="instructor-name" 
                      id="name" 
                      placeholder="Name">
                      <br>
               <input type="text" 
                      class="contact-info" 
-                     name="email" 
+                     name="instructor-email" 
                      id="email" 
                      placeholder="Email">
                      <br>
               <input type="text" 
                      class="contact-info" 
-                     name="phone" 
+                     name="instructor-phone" 
                      id="phone" 
                      placeholder="Phone Number [ex: (330) 123-4567]">
               <input type="text" 
                      class="contact-info" 
-                     name="office-hours" 
+                     name="instructor-office-hours" 
+                     id="office-hours" 
+                     placeholder="Office Hours">
+
+            {% elif defaultFields[i] == "Assistant Information" %}
+              <input type="text" 
+                     class="contact-info" 
+                     name="assistant-name" 
+                     id="name" 
+                     placeholder="Name">
+                     <br>
+              <input type="text" 
+                     class="contact-info" 
+                     name="assistant-email" 
+                     id="email" 
+                     placeholder="Email">
+                     <br>
+              <input type="text" 
+                     class="contact-info" 
+                     name="assistant-phone" 
+                     id="phone" 
+                     placeholder="Phone Number [ex: (330) 123-4567]">
+              <input type="text" 
+                     class="contact-info" 
+                     name="assistant-office-hours" 
                      id="office-hours" 
                      placeholder="Office Hours">
 
             {% else %}
               <textarea maxlength="1000" 
-                        onkeyup="wordCounter(this)" 
-                        class="description" 
-                        name="description">
+                     onkeyup="wordCounter(this)" 
+                     class="description" 
+                     name="{{ defaultFields[i] }}">
               </textarea>
               <span class="counter">Words: </span>
             {% endif %}
 
         </fieldset>
       {% endfor %}
+    </form>
     </div>
   </div>
 </body>
