@@ -15,7 +15,7 @@
     <b href="#">Logout</b>
     <b href="#">Save</b>
 
-    <form action="" 
+    <form action="/document/excel/" 
           id="file-upload-form" 
           class="file-upload-form" 
           method="POST"
@@ -23,7 +23,7 @@
       <input type="file" 
              class="file-upload" 
              id="file-upload" 
-             name="file-upload" 
+             name="excelFile" 
              accept=".xlsx" 
              onchange="uploaded()">
       <input type="submit" class="file-upload-submit" id="file-upload-submit">
@@ -32,6 +32,7 @@
     <button class="open-file-upload" 
               id="open-file-upload"
               form="file-upload-form" 
+              type="button"
               onclick="openUpload()">Upload from Excel</button>
   </div>
 

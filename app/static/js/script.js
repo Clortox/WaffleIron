@@ -22,7 +22,7 @@ function openUpload() {
 
 
 function uploaded() {
-	document.getElementById("file-upload-submit").submit()
+	document.getElementById("file-upload-form").submit()
 }
 
 
