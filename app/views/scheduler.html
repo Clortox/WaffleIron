@@ -14,7 +14,25 @@
   <div class="navbar">
     <b href="#">Logout</b>
     <b href="#">Save</b>
-    <b href="#">Upload from Excel</b>
+
+    <form action="" 
+          id="file-upload-form" 
+          class="file-upload-form" 
+          method="POST"
+          enctype="multipart/form-data">
+      <input type="file" 
+             class="file-upload" 
+             id="file-upload" 
+             name="file-upload" 
+             accept=".xlsx" 
+             onchange="uploaded()">
+      <input type="submit" class="file-upload-submit" id="file-upload-submit">
+    </form>
+
+    <button class="open-file-upload" 
+              id="open-file-upload"
+              form="file-upload-form" 
+              onclick="openUpload()">Upload from Excel</button>
   </div>
 
   <div class="main-div">
@@ -24,7 +42,7 @@
         </div>
         <table>
          {% for i in range(200) %}
-            {% if i == 0%}
+            {% if i == 0 %}
             <tr>
                <th>CRN</th>
                <th>Course Number</th>

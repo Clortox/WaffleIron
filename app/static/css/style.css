@@ -47,6 +47,24 @@ body {
 	text-decoration: none;
 }
 
+.navbar .open-file-upload {
+	float: right;
+	font-size: 16px;
+	color: white;
+	background-color: rgb(0, 57, 118);
+	cursor: pointer;
+	border: none;
+	text-align: center;
+	padding: 14px 16px;
+	font-family: inherit;
+	text-decoration: none;
+}
+
+
+.file-upload-form {
+	display: none;
+}
+
 
 .dropdown {
 	float: right;
@@ -71,7 +89,7 @@ body {
 	background-color: rgb(239, 171, 0);
 }
 
-.navbar  b:hover, .dropdown:hover .dropdown-button, .dropdown-button:focus {
+.navbar  b:hover, .dropdown:hover, .open-file-upload:hover, .dropdown-button, .dropdown-button:focus {
 	background-color: rgb(239, 171, 0);
 }
 
@@ -130,7 +148,7 @@ input[type=email], input[type=password] {
 }
 
 
-button {
+.sign-in {
 	background-color: rgb(0, 57, 118);
 	color: white;
 	padding: 14px 20px;
@@ -141,7 +159,7 @@ button {
 }
 
 
-button:hover {
+.sign-in:hover {
 	opacity: 0.8;
 }
 

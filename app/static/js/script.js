@@ -16,6 +16,16 @@ function initialCheck() {
 }
 
 
+function openUpload() {
+	document.getElementById("file-upload").click();
+}
+
+
+function uploaded() {
+	document.getElementById("file-upload-submit").submit()
+}
+
+
 function dropdown() {
 	document.getElementById("course-list").classList.toggle("show");
 }
