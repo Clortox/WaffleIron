@@ -4,10 +4,12 @@ from docx import Document
 from docx.shared import Inches
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.table import WD_TABLE_ALIGNMENT
+import pandas as pd
+import numpy as np
 import io
 import datetime
 
-from app.models.ExcelData import exceldata
+from app.models.ExcelData import ExcelData
 
 # Generates a Document object containing all the info for the Syllabus
 def generateSyllabus(professor, course, CRN):
@@ -82,11 +84,83 @@ def parseExcelFile(excel_file):
     #re import the document, skipping the correct rows
     wb = pd.read_excel(excel_file, skiprows=rows_to_skip)
 
-    #TODO extract data
+    #drop last row, if its the date the file was generated on
+    if isinstance(wb.tail(1).iloc[0][0], datetime.datetime):
+        wb.drop(wb.tail(1).index, inplace=True)
 
+    # Dictionary to return
+    ret = {}
+    prev_crn = 0
+
+    #TODO extract data
+    for row in wb.index:
+        # CASE 1: This is a continued line, we should populate the previous
+        # CRN's values
+        if np.isnan(wb["CRN"][row]):
+            # set row, eliminate NaN values
+            currRow = wb.iloc[row]
+            currRow = currRow.fillna('')
+
+            # update meeting places
+            if not currRow["Bldg"] == '':
+                ret[prev_crn].multipleMeetingPlaces = True
+                ret[prev_crn].building += ";" + wb["Bldg"][row].strip()
+            if not currRow["Room"] == '':
+                ret[prev_crn].multipleMeetingPlaces = True
+                ret[prev_crn].room += ";" + wb["Room"][row]
+
+            # update meeting time
+            if not currRow["Times"] == '':
+                ret[prev_crn].multipleMeetingTimes = True
+                ret[prev_crn].time += ";" + wb["Times"][row].strip()
+
+            # update meeting days
+            if not currRow["Meeting Days"] == '':
+                ret[prev_crn].multipleMeetingDays = True
+                ret[prev_crn].meetingDays += ";" + wb["Meeting Days"][row].strip()
+
+        # CASE 2: We have a CRN, then populate new entry
+        else:
+            # set prev CRN
+            prev_crn = wb["CRN"][row]
+
+            # set row, eliminate NaN values
+            currRow = wb.iloc[row]
+            currRow = currRow.fillna('')
+
+            # populate ret dict with ExcelData object, then populate data into
+            # it
+            ret[prev_crn] = ExcelData()
+
+            ret[prev_crn].CRN = prev_crn
+
+            ret[prev_crn].courseNumber    = currRow["Course#"]
+            ret[prev_crn].section         = currRow["Section"]
+            ret[prev_crn].title           = currRow["Title"].strip()
+            ret[prev_crn].instructorEmail = currRow["Instructor Email Address"].strip()
+            ret[prev_crn].building        = currRow["Bldg"].strip()
+            ret[prev_crn].room            = currRow["Room"]
+            ret[prev_crn].time            = currRow["Times"].strip()
+            ret[prev_crn].meetingDays     = currRow["Meeting Days"].strip()
+
+    return ret
 
 # Jsonifies the passed object, and makes a response object out of it
 def sendResponse(result):
     resp = make_response(jsonify(result))
     resp.mimetype = 'application/json'
     return resp
+
+# Returns the current year
+def getYear():
+    return datetime.datetime.today().year
+
+# Returns the current semester as a string
+def getSemester():
+    today = datetime.datetime.today()
+    if 1 <= today.month <= 5:
+        return 'SPRING'
+    elif 6 <= today.month < 8:
+        return 'SUMMER'
+    else:
+        return 'FALL'

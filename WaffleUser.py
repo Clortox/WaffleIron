@@ -97,7 +97,7 @@ def main():
     if users.find_one({"_id": "BrianID"}):
         deleteUser("BrianID")
 
-    createUser("BrianID", "BrianPass", {"firstname": "Brian", "email": "Brian@Waffles.org", "phone": 3303232210}, [40000, 50000], "ADMIN")
+    createUser("BrianID", "BrianPass", ["Brian", "Brian@Waffles.org", 3303232210], [40000, 50000], "ADMIN")
     user = users.find_one({"_id": "BrianID"})
     uID = user["_id"]
 

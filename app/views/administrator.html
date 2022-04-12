@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+  <title>Waffle Iron</title>
+</head>
+
+<body onload="initialCheck()">
+  <div class="navbar">
+    <b href="#">Logout</b>
+    <b href="#">Save</b>
+  </div>
+
+  <div class="main-div">
+    <div class="checklist">
+      <div class="section-title">
+         Syllabus Fields
+      </div>
+
+      {% for i in range(0, fieldsLen) %}
+      <label for="{{ requiredFields[i] }}">
+        <div class="checklist-element" id="{{ requiredFields[i] }}-checklist" value="yes">
+            <input class="syllabus-fields" 
+                   type="checkbox" 
+                   name="{{ requiredFields[i] }}" 
+                   id="{{ requiredFields[i] }}" 
+                   value="yes" 
+                   onchange="displayField(this, '{{ requiredFields[i] }}')">{{ requiredFields[i] }}
+        </div>
+      </label>
+      {% endfor %}
+
+    </div>
+
+    <div class="sFields">
+      <div class="section-title">
+        Departmental, College, and University Policy Statements
+      </div>
+
+      {% for i in range(0, fieldsLen) %}
+        <fieldset class="fieldInfo hide" id="{{ requiredFields[i] }}-info">
+          <legend>{{ requiredFields[i] }}</legend>
+              <textarea maxlength="1000" 
+                        onkeyup="wordCounter(this)" 
+                        class="description" 
+                        name="description"></textarea>
+              <span class="counter">Words: </span>
+        </fieldset>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>

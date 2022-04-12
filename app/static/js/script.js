@@ -11,7 +11,18 @@ function initialCheck() {
 		if(statuses[i]) {
 			field = document.getElementById(ids[i] + "-info");
 			field.classList.remove('hide');
+			field.disabled = false;
 		}
+}
+
+
+function openUpload() {
+	document.getElementById("file-upload").click();
+}
+
+
+function uploaded() {
+	document.getElementById("file-upload-form").submit()
 }
 
 
@@ -38,9 +49,11 @@ function displayField(self, fieldName) {
 	var field = document.getElementById(fieldName + "-info");
 	if(self.checked) {
 		field.classList.remove('hide');
+		field.disabled = false;
 	}
 	else {
 		field.classList.add('hide');
+		field.disabled = true;
 	}
 }
 

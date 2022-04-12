@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+        <title>Waffle Iron</title>
+    </head>
+    <body>
+      </div>
+        <div class="signinform">
+          <form method="POST">
+            <div class="section-title">Sign in</div>
+
+            <label for="email">Email</label>
+              <input type="email" placeholder="Enter your email" name="email" required>
+
+            <label for="password">Password</label>
+              <input type="password" placeholder="Enter your password" name="password" required>
+
+            <button class="sign-in" type="submit">Login</button>
+          </form>
+        </div>
+    </body>
+</html>

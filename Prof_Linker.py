@@ -2,7 +2,17 @@ import WaffleUser as User
 import Waffle_Lookup as Look
 import wafflecourse as Course
 
+"""
+-----------------------------------------
+These are the getter methods
+-----------------------------------------
+"""
 
+# This function finds the class files for a CRN a professor
+# has or for a crn that is in the same class that a professor
+# has access to.
+# If a CRN is not found or if the file is not accessible to the
+# professor, then an error message is returned
 def find_file(uID, CRN):
     # Finds a file if it is owned by the User
     if User.confirmUserCRN(uID, CRN):
@@ -27,7 +37,8 @@ def find_file(uID, CRN):
 
 
 # Determines if a CRN value belongs to the same
-# course as one of the user's CRN values
+# course as one of the user's CRN values. Returns
+# True or False
 def isCRNRelated(uID, CRN):
     uCRNs = User.getUserCRNs(uID)
     cID = Look.getCourseID(CRN)
@@ -56,6 +67,28 @@ def getClassNames(uID):
     return classNames
 
 
+"""
+----------------------------------------
+These are the saving methods
+----------------------------------------
+"""
+
+
+def saveCRNFile(uID, CRN, cYear, cSem, cFields):
+    if User.confirmUserCRN(uID, CRN):
+        cID = Look.getCourseID(CRN)
+        currFile = find_file(uID, CRN)
+
+        # If the times are different, then save the times
+        if currFile['cYear'] != cYear:
+            Course.update_cyear(cID, CRN, cYear)
+
+        if currFile['cSem'] != cSem:
+            Course.update_csem(cID, CRN, cSem)
+
+        Course.update_cFields(cID, CRN, cFields)
+
+
 def main():
     # User.deleteUser('nProf56')
     # Look.DeleteCourse('WE54000')
@@ -66,6 +99,7 @@ def main():
     Look.addCourse('WE54000', "Waffle Eating Core", [54000, 55000, 56000])
     Look.addCourse('WC49999', "Waffle Cooking Concepts", [49999, 48999, 47999])
     Look.addCourse('WB32500', "Waffle Fundamentals", [32500, 25000])
+    Course.createFile('WE54000', 54000, 2021, "FALL")
 
     print(User.confirmLogin('nProf56', 'Coconut'))
     getClassNames('nProf56')
@@ -75,6 +109,10 @@ def main():
     print(User.confirmUserCRN('nProf56', 54000))
     print(User.confirmUserCRN('nProf56', 54001))
 
+    saveCRNFile('nProf56', 54000, 2022, "SPRING", {"Data": "This is how the class works",
+                                                   "Second Data": "This is how data works"})
+
+    print(find_file('nProf56', 54000))
     User.deleteUser('nProf56')
     Look.DeleteCourse('WE54000')
     Look.DeleteCourse('WC49999')

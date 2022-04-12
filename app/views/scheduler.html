@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+  <title>Waffle Iron</title>
+</head>
+
+<body onload="initialCheck()">
+  <div class="navbar">
+    <b href="#">Logout</b>
+    <b href="#">Save</b>
+
+    <form action="/document/excel/" 
+          id="file-upload-form" 
+          class="file-upload-form" 
+          method="POST"
+          enctype="multipart/form-data">
+      <input type="file" 
+             class="file-upload" 
+             id="file-upload" 
+             name="excelFile" 
+             accept=".xlsx" 
+             onchange="uploaded()">
+      <input type="submit" class="file-upload-submit" id="file-upload-submit">
+    </form>
+
+    <button class="open-file-upload" 
+              id="open-file-upload"
+              form="file-upload-form" 
+              type="button"
+              onclick="openUpload()">Upload from Excel</button>
+  </div>
+
+  <div class="main-div">
+    <div class="table">
+      <div class="scheduler-title">
+         Assign CRNs
+        </div>
+        <table>
+         {% for i in range(200) %}
+            {% if i == 0 %}
+            <tr>
+               <th>CRN</th>
+               <th>Course Number</th>
+               <th>Section</th>
+               <th>Course Name</th>
+               <th>Instructor Email</th>
+               <th>Building</th>
+               <th>Room Number</th>
+               <th>Meeting Days</th>
+               <th>Meeting Time</th>
+            </tr>
+            {% else %}
+            <tr>
+               <th><input size = '' style="width:90%"></th>
+               <th><input size = '' style="width:90%"></th>
+               <th><input size = '' style="width:90%"></th>
+               <th><input size = '' style="width:90%"></th>
+               <th><input size = '' style="width:90%"></th>
+               <th><input size = '' style="width:90%"></th>
+               <th><input size = '' style="width:90%"></th>
+               <th><input size = '' style="width:90%"></th>
+               <th><input size = '' style="width:90%"></th>
+            </tr>
+            {% endif %}
+         {% endfor %}
+         </table>
+      </div>
+</body>
+</html>
