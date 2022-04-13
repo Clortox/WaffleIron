@@ -13,6 +13,9 @@ class User():
     def __init__(self):
         pass
 
+    def setPath():
+        return MongoClient()['users']
+
     #get some user by id (TODO)
     def getUser(_id):
         return
