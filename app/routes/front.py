@@ -1,8 +1,7 @@
 from flask import Blueprint,request,json
 from flask_pymongo import ObjectId
 from ..app import mongo
-from ..app import waffleauth
-from waffleauth import signin
+from app.waffleauth import fbsignin
 from flask import render_template
 from app.controllers.HomeController import homecontroller
 from app.controllers.DocumentController import documentcontroller
@@ -82,12 +81,13 @@ def scheduler():
 @front.route('/signin', methods=['GET', 'POST'])
 def signin():
     return render_template("signin.html")
+
+@front.route('/signinFunc', methods=['POST'])
 def signinFunc():
     if request.method == "POST":
-        email = request.form.get('email')
-        password = request.form.get('email')
-        return signin(email, password)
-    return render_template('/administrator.html')
+        email = request.form['email']
+        password = request.form['password']
+        return fbsignin(email, password)
 
 @front.route('/document/docx/<CRN>', methods=['GET'])
 def document(CRN):
