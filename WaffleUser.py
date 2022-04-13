@@ -92,6 +92,16 @@ def confirmUserCRN(ID, CRN):
         return False
 
 
+# Function used by the Schedule_Linker to get all of the users from the system
+def getAllProfs():
+    profs = {}
+    users = setPath()
+    for user in users.find({}):
+        if user["role"] == 'PROF':
+            profs[user['_id']] = user
+    return profs
+
+
 def main():
     users = setPath()
     if users.find_one({"_id": "BrianID"}):

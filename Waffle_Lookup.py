@@ -25,6 +25,17 @@ def getCourseName(crn):
     return 'ER404'
 
 
+def getCourseName_cID(cID):
+    WaffleCourse = setPath()
+
+    try:
+        course = WaffleCourse.find_one({"_id": cID})
+        return course['cName']
+    except TypeError:
+        return 'ER404'
+
+
+
 def getCourseID(crn):
     WaffleCourse = setPath()
 
@@ -41,6 +52,18 @@ def getCourseCRNs(cID):
         return "Course Information Not Found."
 
 
+def addCourseCRN(cID, CRN):
+    WaffleCourse = setPath()
+    course = WaffleCourse.find_one({"_id": cID})
+    WaffleCourse.update_one(course, {"$push": {"CRNs": CRN}})
+
+
+def removeCourseCRN(cID, CRN):
+    WaffleCourse = setPath()
+    course = WaffleCourse.find_one({"_id": cID})
+    WaffleCourse.update_one(course, {"$pull": {"CRNs": CRN}})
+
+
 def DeleteCourse(ID):
     WaffleCourse = setPath()
     WaffleFiles = MongoClient()['WaffleIron_DB'][ID]
@@ -52,6 +75,17 @@ def DeleteCourse(ID):
 
     WaffleCourse.delete_one(course)
     print("Course " + ID + " has been deleted.")
+
+
+def editCourseName(ID, name):
+    WaffleCourse = setPath()
+    course = WaffleCourse.find_one({"_id": ID})
+    WaffleCourse.update_one(course, {"$set": {"cName": name}})
+
+
+def getCourses():
+    WaffleCourse = setPath()
+    return WaffleCourse.find({})
 
 
 def main():
