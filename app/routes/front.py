@@ -1,6 +1,5 @@
 from flask import Blueprint,request,json
-from flask_pymongo import ObjectId
-#from ..app import mongo
+from ..app import mongo
 #from app.waffleauth import fbsignin
 from flask import render_template
 from flask import request, redirect, make_response

@@ -15,6 +15,26 @@ following command:
 To view the application, visit [localhost:5000](http://127.0.0.1:5000). The
 application will update as you update files locally
 
+Run in docker
+-------------
+
+To run the application in docker, run the following commands:
+
+```
+docker build --tag waffleiron .
+docker-compose up
+```
+
+The script `./run-docker.sh` will execute the two above commands. If the
+application throws errors regarding access to mongodb, check the service is
+running. Refer to the section below on mongodb
+
+Running Mongodb
+---------------
+
+Mongodb can be run locally or via docker. Mongo is automatically started when
+using the `./run-docker.sh` command.
+
 Structure
 ---------
 

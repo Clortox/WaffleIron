@@ -1,5 +1,10 @@
 #!/bin/bash
-sudo pip install -e .
+which sudo
+if [ $? -eq 0 ]; then
+    sudo pip install -e .
+else
+    pip install -e .
+fi
 export FLASK_APP=app/__init__.py
 
 #if an argument is passed, then we are in production
@@ -12,4 +17,4 @@ else
     export FLASK_DEBUG=0
 fi
 
-flask run
+flask run --host=0.0.0.0

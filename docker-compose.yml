@@ -1,0 +1,25 @@
+version: '3.1'
+services:
+  waffleiron_service:
+    image: waffleiron
+    container_name: waffleiron_service
+    restart: unless-stopped
+    ports:
+      - 5000:5000
+    links:
+      - "mongo"
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+      #environment:
+      #  - MONGO_INITDB_DATABSE=WaffleIron_DB
+      #  - MONGO_INITDB_ROOT_USERNAME=root
+      #  - MONGO_INITDB_ROOT_PASSWORD=pass
+      #volumes:
+      #  - ./mongosetup.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    ports:
+      - 27017:27017
+        #command: [--auth]
+
+
