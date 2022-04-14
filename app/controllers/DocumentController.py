@@ -22,7 +22,7 @@ class DocumentController():
             print(course.get_file(parsedExcelFile[curr].courseNumber,
                 curr))
             course.createFile(
-                cID=str(parsedExcelFile[curr].courseNumber),
+                cID=parsedExcelFile[curr].courseNumber,
                 CRN=parsedExcelFile[curr].CRN,
                 cYear=getYear(),
                 cSem=getSemester(),

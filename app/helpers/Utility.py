@@ -134,7 +134,7 @@ def parseExcelFile(excel_file):
 
             ret[prev_crn].CRN = prev_crn
 
-            ret[prev_crn].courseNumber    = currRow["Course#"]
+            ret[prev_crn].courseNumber    = ('%f' % currRow["Course#"]).rstrip('0').rstrip('.')
             ret[prev_crn].section         = currRow["Section"]
             ret[prev_crn].title           = currRow["Title"].strip()
             ret[prev_crn].instructorEmail = currRow["Instructor Email Address"].strip()

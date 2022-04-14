@@ -25,7 +25,7 @@ class ExcelData():
 
     # CRN and course number (IE CS49999)
     CRN = 0
-    courseNumber = 0
+    courseNumber = ''
 
     section = 0
     title = ''
