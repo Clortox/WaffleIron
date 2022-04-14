@@ -1,11 +1,16 @@
 from flask import Blueprint,request,json
 from flask_pymongo import ObjectId
-from ..app import mongo
-from app.waffleauth import fbsignin
+#from ..app import mongo
+#from app.waffleauth import fbsignin
 from flask import render_template
+from flask import request, redirect, make_response
 from app.controllers.HomeController import homecontroller
 from app.controllers.DocumentController import documentcontroller
 from app.helpers.Utility import sendResponse
+
+from Schedule_Linker import getLookup
+from random import seed, randint
+import passwords
 
 
 front = Blueprint("front", __name__)
@@ -58,6 +63,7 @@ def sendInfo():
 
     return render_template("saveSuccess.html")
 
+
 @front.route('/instructor', methods=['GET', 'POST'])
 def instructor():
     return render_template("instructor.html",
@@ -67,6 +73,7 @@ def instructor():
         courseLen = len(testCourses)
     )
 
+
 @front.route('/administrator', methods=['GET', 'POST'])
 def administrator():
     return render_template("administrator.html",
@@ -74,24 +81,57 @@ def administrator():
         fieldsLen = len(requiredFields)
     )
 
+
 @front.route('/scheduler', methods=['GET', 'POST'])
 def scheduler():
     return render_template("scheduler.html")
 
-@front.route('/signin', methods=['GET', 'POST'])
-def signin():
-    return render_template("signin.html")
 
-@front.route('/signinFunc', methods=['POST'])
-def signinFunc():
-    if request.method == "POST":
+# Displays register page
+@front.route('/register')
+def register_page():
+    return render_template("register.html")
+
+
+# Handles register operations
+@front.route('/register', methods=['POST'])
+def register():
+    email = request.form['email']
+    password = request.form['password']
+    passwordConfirm = request.form['password_confirm']
+
+    if password != passwordConfirm:
+        return render_template('register.html')
+
+    password = passwords.encode_password(password)
+
+    print("Email: ", email)
+    print("password: ", password)
+
+    return redirect("/login")
+
+
+@front.route('/login')
+def login_page():
+    return render_template("login.html")
+
+
+@front.route('/login', methods=['POST', 'GET'])
+def login():
+    if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        return fbsignin(email, password)
+
+    resp = make_response(render_template("login.html"))
+    resp.set_cookie('userID', email)
+
+    return resp
+
 
 @front.route('/document/docx/<CRN>', methods=['GET'])
 def document(CRN):
     return documentcontroller.document(CRN)
+
 
 @front.route('/document/excel/', methods=['POST'])
 def excel():
