@@ -18,28 +18,23 @@ class DocumentController():
             ret[key] = parsedExcelFile[key].serialize()
 
         #TODO place the returned dictionary into the database
-        try:
-            for curr in parsedExcelFile:
-                print(course.get_file(parsedExcelFile[curr].courseNumber,
-                    curr))
-                course.createFile(
-                    cID=str(parsedExcelFile[curr].courseNumber),
-                    CRN=parsedExcelFile[curr].CRN,
-                    cYear=getYear(),
-                    cSem=getSemester(),
-                    data={
-                        "title"       : parsedExcelFile[curr].title,
-                        "section"     : parsedExcelFile[curr].section,
-                        "building"    : parsedExcelFile[curr].building,
-                        "room"        : parsedExcelFile[curr].room,
-                        "time"        : parsedExcelFile[curr].time,
-                        "meetingDays" : parsedExcelFile[curr].meetingDays,
-                    }
-                )
-            return ret;
-        except:
-            return {
-                "message" : "Fields already exist!"
-            }
+        for curr in parsedExcelFile:
+            print(course.get_file(parsedExcelFile[curr].courseNumber,
+                curr))
+            course.createFile(
+                cID=str(parsedExcelFile[curr].courseNumber),
+                CRN=parsedExcelFile[curr].CRN,
+                cYear=getYear(),
+                cSem=getSemester(),
+                data={
+                    "title"       : parsedExcelFile[curr].title,
+                    "section"     : parsedExcelFile[curr].section,
+                    "building"    : parsedExcelFile[curr].building,
+                    "room"        : parsedExcelFile[curr].room,
+                    "time"        : parsedExcelFile[curr].time,
+                    "meetingDays" : parsedExcelFile[curr].meetingDays,
+                }
+            )
+        return ret;
 
 documentcontroller = DocumentController()

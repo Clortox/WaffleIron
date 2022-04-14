@@ -8,7 +8,7 @@ class Course():
         pass
 
     def setPath(self, cID):
-        return mongo[cID]
+        return mongo[str(cID)]
 
     # This will be called when a new file has been created
     def createFile(self, cID, CRN, cYear, cSem, data={}):
@@ -23,13 +23,13 @@ class Course():
 
     # These next functions will be called to update a particular field on a file
     def update_cyear(self, course_ID, CRN, yr):
-        cTable = setPath(course_ID)
+        cTable = self.setPath(course_ID)
         file = cTable.find_one({"_id": CRN})
         cTable.update_one(file, {"$set": {"cYear":yr}})
 
 
     def update_csem(self, course_ID, CRN, sem):
-        cTable = setPath(course_ID)
+        cTable = self.setPath(course_ID)
         file = cTable.find_one({"_id": CRN})
         cTable.update_one(file, {"$set": {"cSem": sem}})
 
@@ -63,20 +63,20 @@ class Course():
     # period, followed by the name of the field you wish to perform queries on, then you provide data if necessary.
     # I recommend checking out Nested Documents documentation from MongoDB. I will find a good link for the chat!
     def add_cFields(self, course_ID, CRN, field_key, field_data):
-        cTable = setPath(course_ID)
+        cTable = self.setPath(course_ID)
         file = cTable.find_one({"_id": CRN})
         cTable.update_one(file, {"$set": {'cFields.' + field_key: field_data}})
 
 
     def remove_cFields(self, course_ID, CRN, field_name):
-        cTable = setPath(course_ID)
+        cTable = self.setPath(course_ID)
         file = cTable.find_one({"_id": CRN})
         cTable.update_one(file, {"$unset": {"cFields." + field_name: ""}})
 
 
     # This next function finds and returns and entire data file from the course
     def get_file(self, course_ID, CRN):
-        cTable = setPath(course_ID)
+        cTable = self.setPath(course_ID)
         file = cTable.find_one({"_id": CRN})
         return file
 
@@ -84,7 +84,7 @@ class Course():
     # This next function will only get the class fields from a particular file.
     # Particularly useful for updating the class fields...
     def get_data(self, course_ID, CRN):
-        cTable = setPath(course_ID)
+        cTable = self.setPath(course_ID)
         file = cTable.find_one({"_id": CRN})
         return file["cFields"]
 
