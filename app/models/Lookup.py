@@ -6,7 +6,7 @@ class Lookup():
     def __init__(self):
         pass
 
-    def setPath(self):
+    def setPath:
         return MongoClient()['Waffle_Lookup']
 
 
