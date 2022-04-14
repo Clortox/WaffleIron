@@ -95,29 +95,12 @@ def main():
     # Course ID will be 56543
     # There will be a series of CRN values passed.
     # A bit of data will be randomly chosen with each test.
-    createFile('56543', 50000, 2022, 'SUMMER')
-    print(get_file('56543', 50000))
-    add_cFields('56543', 50000, "Data", "This is the first field in the file.")
-    add_cFields('56543', 50000, "New Data", "A new data point")
-    print(get_file('56543', 50000))
 
-    remove_cFields('56543', 50000, "Data")
-    print(get_file('56543', 50000))
+    path = setPath('10051.0')
+    cursr = path.find()
+    for c in cursr:
+        print(c)
 
-    add_cFields('56543', 50000, "New Data", 'This is what I meant!')
-    print(get_file('56543', 50000))
-
-    add_cFields('56543', 50000, "Data", "The data field has returned! But I will be gone soon...")
-    add_cFields('56543', 50000, "Existing Data", "Data with an existential crisis. Do not disturb.")
-    update_cFields('56543', 50000, {
-                                    "Grades": "This is the grades field, newly added.",
-                                    "New Data": 'This is the final new data',
-                                    "Waffle Quality Report": "Waffles are wonderful! #WonderWaffles"})
-    print(get_file('56543', 50000))
-
-    WaffleCourse = setPath('56543')
-    file = WaffleCourse.find_one({'_id': 50000})
-    WaffleCourse.delete_one(file)
 
 
 if __name__ == "__main__":

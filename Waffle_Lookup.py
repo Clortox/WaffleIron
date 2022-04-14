@@ -70,10 +70,12 @@ def DeleteCourse(ID):
 
     # Deletes all files from a course when removing a course
     for file in WaffleFiles.find({}):
-        WaffleFiles.delete_one(file)
+        try:
+            WaffleFiles.delete_one(file)
+        except TypeError:
+            break
 
-
-    WaffleCourse.delete_one(course)
+    WaffleCourse.delete_one({"_id":ID})
     print("Course " + ID + " has been deleted.")
 
 
@@ -85,31 +87,18 @@ def editCourseName(ID, name):
 
 def getCourses():
     WaffleCourse = setPath()
-    return WaffleCourse.find({})
+    cursor = WaffleCourse.find()
+    courseDict = {}
+    for c in cursor:
+        courseDict[c['_id']] = c
+    return courseDict
 
 
 def main():
-    # Uncomment these if an issue occurs and the files were not deleted!
-    # DeleteCourse('WC44543')
-    # DeleteCourse('WI44342')
-    # DeleteCourse('WE00340')
-
-    addCourse('WC44543', 'Waffle Cooking', [40302, 45002, 50000])
-    addCourse('WI44342', 'Waffle Iron Training')
-    addCourse('WE00340', 'Waffle Eating Training', [50123, 623443, 10489])
-
-    name = getCourseName(50129)
-    print(name)
-
-    DeleteCourse('WC44543')
-    DeleteCourse('WI44342')
-    DeleteCourse('WE00340')
-
-    testDict = {"Data": "Value", "Value": "Another Value", "Final": "F"}
-    for key in testDict.keys():
-        print(key)
-    print(testDict.get("Data"))
-    print(testDict.get("OtherData"))
+    #addCourse("6666", "Another New Course", ["1212", '5856'])
+    #DeleteCourse('6666')
+    #DeleteCourse('5555')
+    print(getCourses())
 
 
 if __name__ == '__main__':

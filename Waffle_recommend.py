@@ -40,18 +40,22 @@ def get_policy(pId):
 
 def main():
     # Uncomment this next line if an issue occurs and you need to clear the db of the test data!
-    # deletepolicy('123')
+    # deleterecpolicy('0')
+    # deleterecpolicy('1')
+    # deleterecpolicy('2')
 
     for i in range(3):
         addrecpolicy(i,policyname[i],"The test recommend policy")
         print(get_policy(i))
     
-    updaterecpolicyname('123',"Ishva policy")
-    print(get_policy('123'))
-    updaterecpolicydata('123',"This is Ishva policy")
-    print(get_policy('123'))
+    updaterecpolicyname('1',"Ishva policy")
+    print(get_policy('1'))
+    updaterecpolicydata('2',"This is Ishva policy")
+    print(get_policy('2'))
 
-   # deletepolicy('123')
+    deleterecpolicy('0')
+    deleterecpolicy('1')
+    deleterecpolicy('2')
 
 
 if __name__ == "__main__":
