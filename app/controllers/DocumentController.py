@@ -67,7 +67,8 @@ class DocumentController():
                         ID=parsedExcelFile[curr].instructorEmail,
                         hash=hashlib.sha256(b'password').hexdigest(),
                         contact = {
-                            "email" : parsedExcelFile[curr].instructorEmail
+                            "email" : parsedExcelFile[curr].instructorEmail,
+                            "name"  : parsedExcelFile[curr].instructorName
                             },
                         crn=[parsedExcelFile[curr].CRN]
                         )

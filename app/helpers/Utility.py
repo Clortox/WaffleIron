@@ -142,6 +142,7 @@ def parseExcelFile(excel_file):
             ret[prev_crn].room            = currRow["Room"]
             ret[prev_crn].time            = currRow["Times"].strip()
             ret[prev_crn].meetingDays     = currRow["Meeting Days"].strip()
+            ret[prev_crn].instructorName  = currRow["Instructor"].strip()
 
     return ret
 

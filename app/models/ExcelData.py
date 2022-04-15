@@ -30,6 +30,7 @@ class ExcelData():
     section = 0
     title = ''
     instructorEmail = ''
+    instructorName = ''
 
     # building abbreviation and room number
     # This will bese inserted as a list when there are several different
