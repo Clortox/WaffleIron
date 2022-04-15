@@ -6,12 +6,12 @@ class Lookup():
     def __init__(self):
         pass
 
-    def setPath:
-        return MongoClient()['Waffle_Lookup']
+    def setPath(self):
+        return mongo['Waffle_Lookup']
 
 
     def addCourse(self, ID, name, crn=[]):
-        WaffleCourse = setPath()
+        WaffleCourse = self.setPath()
         coursePost = {
             "_id": ID,
             "cName": name,
@@ -22,7 +22,7 @@ class Lookup():
 
 
     def getCourseName(self, crn):
-        WaffleCourse = setPath()
+        WaffleCourse = self.setPath()
 
         for c in WaffleCourse.find():
             if c['CRNs'].count(crn) > 0:
@@ -31,7 +31,7 @@ class Lookup():
 
 
     def getCourseName_cID(self, cID):
-        WaffleCourse = setPath()
+        WaffleCourse = self.setPath()
 
         try:
             course = WaffleCourse.find_one({"_id": cID})
@@ -42,7 +42,7 @@ class Lookup():
 
 
     def getCourseID(self, crn):
-        WaffleCourse = setPath()
+        WaffleCourse = self.setPath()
 
         for c in WaffleCourse.find():
             if c['CRNs'].count(crn) > 0:
@@ -50,7 +50,7 @@ class Lookup():
         return 'ER404'
 
     def getCourseCRNs(self, cID):
-        WaffleCourse = setPath()
+        WaffleCourse = self.setPath()
         try:
             return WaffleCourse.find_one({"_id": cID})['CRNs']
         except TypeError:
@@ -58,19 +58,19 @@ class Lookup():
 
 
     def addCourseCRN(self, cID, CRN):
-        WaffleCourse = setPath()
+        WaffleCourse = self.setPath()
         course = WaffleCourse.find_one({"_id": cID})
         WaffleCourse.update_one(course, {"$push": {"CRNs": CRN}})
 
 
     def removeCourseCRN(self, cID, CRN):
-        WaffleCourse = setPath()
+        WaffleCourse = self.setPath()
         course = WaffleCourse.find_one({"_id": cID})
         WaffleCourse.update_one(course, {"$pull": {"CRNs": CRN}})
 
 
     def DeleteCourse(self, ID):
-        WaffleCourse = setPath()
+        WaffleCourse = self.setPath()
         WaffleFiles = MongoClient()['WaffleIron_DB'][ID]
 
         # Deletes all files from a course when removing a course
@@ -83,12 +83,13 @@ class Lookup():
 
 
     def editCourseName(self, ID, name):
-        WaffleCourse = setPath()
+        WaffleCourse = self.setPath()
         course = WaffleCourse.find_one({"_id": ID})
         WaffleCourse.update_one(course, {"$set": {"cName": name}})
 
 
     def getCourses(self):
-        WaffleCourse = setPath()
+        WaffleCourse = self.setPath()
         return WaffleCourse.find({})
 
+lookup=Lookup()
