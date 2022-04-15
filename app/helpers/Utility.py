@@ -21,38 +21,40 @@ def generateSyllabus(professor, course, CRN):
     doc = Document()
 
     # add metadata
-    doc.core_properties.author = professor.user_flashlineID
+    doc.core_properties.author = professor["name"]
     doc.core_properties.language = 'English'
-    doc.core_properties.title = course.course_name + ' ' + \
-        course.course_semester + ' ' + course_year + ' Syllabus'
+    doc.core_properties.title = course["cFields"]["title"] + ' ' + \
+        str(course["cSem"]) + ' ' + str(course["cYear"]) + ' Syllabus'
     doc.core_properties.comments = 'Made with the waffle iron'
     doc.core_properties.category = 'Syllabus'
     doc.core_properties.created = datetime.datetime.now()
     doc.core_properties.modifier = datetime.datetime.now()
-    doc.core_properties.identifier = CRN.CRN
+    doc.core_properties.identifier = CRN
 
-    doc.add_heading(course.course_name, 0)
-    doc.add_heading('CRN: ' + CRN.CRN + ' - ' + \
-            course.course_semester + ' ' + course_year, 1)
+    doc.add_heading(course["cFields"]["title"], 0)
+    doc.add_heading('CRN: ' + str(CRN) + ' - ' + \
+            str(course["cSem"]) + ' ' + str(course["cYear"]), 1)
 
     doc.add_paragraph('\n')
 
-    contact_table = doc.add_table(rows=len(user_contactfields), cols=2, \
+    contact_table = doc.add_table(rows=len(professor), cols=2, \
             style=table_style)
     contact_table.alignment = WD_TABLE_ALIGNMENT.CENTER
 
     # contact table
-    for i in range(0, len(professor.user_contactfields)):
+    i = 0
+    for contact in professor:
         row = contact_table.rows[i].cells
-        p = row[0].add_paragraph(user_contactfields[i][0])
+        p = row[0].add_paragraph(contact)
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        p = row[1].add_paragraph(user_contactfields[i][1])
+        p = row[1].add_paragraph(professor[contact])
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        i += 1
 
     # course fields
-    for i in range(0, len(course.course_fields)):
-        doc.add_heading(course.course_fields[i][0], level=1)
-        doc.add_paragraph(course_fields[i][1])
+    for field in course["cFields"]:
+        doc.add_heading(field, level=1)
+        doc.add_paragraph(str(course["cFields"][field]))
 
     return doc
 

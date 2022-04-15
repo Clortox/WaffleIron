@@ -1,6 +1,8 @@
 from flask import request
 from flask import render_template
+from flask import send_file
 import hashlib
+import io
 from app.helpers.Utility import generateSyllabus,parseExcelFile,sendResponse,getYear,getSemester
 from app.models.Course import course
 from app.models.Lookup import lookup
@@ -12,7 +14,32 @@ class DocumentController():
         pass
 
     def document(self, classCRN):
-        return 'hello from document'
+        # get info needed for generateSyllabus call
+        # get course information
+        courseID = lookup.getCourseID(int(classCRN))
+        courseData = course.get_file(
+                course_ID=int(courseID),
+                CRN=int(classCRN))
+
+        # get professor
+        prof = user.getUserContact(str(courseData["cFields"]["instructorEmail"]))
+
+
+        syllabus = generateSyllabus(
+                professor=prof,
+                course=courseData,
+                CRN=classCRN)
+
+        buffer = io.BytesIO()
+        syllabus.save(buffer)
+        buffer.seek(0)
+
+        return send_file(
+                path_or_file=buffer,
+                #mimetype="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                download_name="Syllabus_" + classCRN + ".docx",
+                as_attachment=True,
+                )
 
     def excel(self, excel_file):
         parsedExcelFile = parseExcelFile(excel_file)
@@ -31,12 +58,13 @@ class DocumentController():
                 cYear=getYear(),
                 cSem=getSemester(),
                 data={
-                    "title"       : parsedExcelFile[curr].title,
-                    "section"     : parsedExcelFile[curr].section,
-                    "building"    : parsedExcelFile[curr].building,
-                    "room"        : parsedExcelFile[curr].room,
-                    "time"        : parsedExcelFile[curr].time,
-                    "meetingDays" : parsedExcelFile[curr].meetingDays,
+                    "title"           : parsedExcelFile[curr].title,
+                    "section"         : parsedExcelFile[curr].section,
+                    "building"        : parsedExcelFile[curr].building,
+                    "room"            : parsedExcelFile[curr].room,
+                    "time"            : parsedExcelFile[curr].time,
+                    "meetingDays"     : parsedExcelFile[curr].meetingDays,
+                    "instructorEmail" : parsedExcelFile[curr].instructorEmail
                 }
             )
 
