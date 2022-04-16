@@ -3,10 +3,11 @@ from flask import render_template
 from flask import send_file
 import hashlib
 import io
-from app.helpers.Utility import generateSyllabus,parseExcelFile,sendResponse,getYear,getSemester
-from app.models.Course import course
-from app.models.Lookup import lookup
-from app.models.User   import user
+from app.helpers.Utility   import generateSyllabus,parseExcelFile,sendResponse,getYear,getSemester
+from app.models.Course     import course
+from app.models.Lookup     import lookup
+from app.models.User       import user
+from app.helpers.passwords import encode_password
 
 class DocumentController():
 
@@ -93,7 +94,7 @@ class DocumentController():
                 #otherwise add new instructor
                 user.createUser(
                         ID=parsedExcelFile[curr].instructorEmail,
-                        hash=hashlib.sha256(b'password').hexdigest(),
+                        hash=encode_password('password'),
                         contact = {
                             "email" : parsedExcelFile[curr].instructorEmail,
                             "name"  : parsedExcelFile[curr].instructorName
