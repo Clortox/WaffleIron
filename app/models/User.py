@@ -1,12 +1,16 @@
 from ..app import mongo
-from flask import request,json
+from flask import request,json, Flask, session
 #password hashing
 import hashlib
 from enum import Enum
 
+# Session ID
+import uuid
+
 class Role(Enum):
     ADMIN = 1
     PROFESSOR = 2
+    SCHEDULER = 3
 
 class User():
     def __init__(self):
@@ -14,6 +18,11 @@ class User():
 
     def setPath(self):
         return mongo['users']
+
+    def startSession(self, email):
+        session['logged_in'] = True
+        session['user_email'] = email
+        return session
 
     def confirmLogin(self, ID, hash):
         users = self.setPath()
@@ -91,6 +100,11 @@ class User():
     def getUserRole(self, ID):
         users = self.setPath()
         return users.find_one({"_id": ID})["role"]
+
+    def getUserHash(self, ID):
+        users = self.setPath()
+        profile = users.find_one({"_id": ID})
+        return profile["hash"]
 
 
     def confirmUserCRN(self, ID, CRN):
