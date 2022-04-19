@@ -23,7 +23,7 @@ def generateSyllabus(professor, course, CRN):
     # add metadata
     doc.core_properties.author = professor["name"]
     doc.core_properties.language = 'English'
-    doc.core_properties.title = course["cFields"]["title"] + ' ' + \
+    doc.core_properties.title = course["cFields"]["Title"] + ' ' + \
         str(course["cSem"]) + ' ' + str(course["cYear"]) + ' Syllabus'
     doc.core_properties.comments = 'Made with the waffle iron'
     doc.core_properties.category = 'Syllabus'
@@ -31,7 +31,7 @@ def generateSyllabus(professor, course, CRN):
     doc.core_properties.modifier = datetime.datetime.now()
     doc.core_properties.identifier = CRN
 
-    doc.add_heading(course["cFields"]["title"], 0)
+    doc.add_heading(course["cFields"]["Title"], 0)
     doc.add_heading('CRN: ' + str(CRN) + ' - ' + \
             str(course["cSem"]) + ' ' + str(course["cYear"]), 1)
 
@@ -53,8 +53,9 @@ def generateSyllabus(professor, course, CRN):
 
     # course fields
     for field in course["cFields"]:
-        doc.add_heading(field, level=1)
-        doc.add_paragraph(str(course["cFields"][field]))
+        if field != "Contact Information":
+            doc.add_heading(field, level=1)
+            doc.add_paragraph(str(course["cFields"][field]))
 
     return doc
 

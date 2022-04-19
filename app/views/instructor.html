@@ -28,7 +28,7 @@
     <a href="https://www.acm.org/binaries/content/assets/education/curricula-recommendations/cc2020.pdf" target="_blank">ACM Requirements</a>
     <a href="#">Copy to another CRN</a>
     <input type="submit" form="syllabus-fields-text" value="Save">
-    <a href="/document/docx/">Export</a>
+    <a href={{ url_for('front.document', CRN=CRN) }}>Export</a>
     <a href="/logout">Logout</a>
   </div>
 

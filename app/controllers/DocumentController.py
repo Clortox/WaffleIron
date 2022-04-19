@@ -17,13 +17,13 @@ class DocumentController():
     def document(self, classCRN):
         # get info needed for generateSyllabus call
         # get course information
-        courseID = lookup.getCourseID(int(classCRN))
+        courseID = lookup.getCourseID(classCRN)
         courseData = course.get_file(
-                course_ID=int(courseID),
-                CRN=int(classCRN))
+                course_ID=courseID,
+                CRN=classCRN)
 
         # get professor
-        prof = user.getUserContact(str(courseData["cFields"]["instructorEmail"]))
+        prof = user.getUserContact(str(courseData["cFields"]["Contact Information"]["email"]))
 
 
         syllabus = generateSyllabus(
