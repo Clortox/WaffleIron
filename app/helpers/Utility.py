@@ -124,7 +124,7 @@ def parseExcelFile(excel_file):
         # CASE 2: We have a CRN, then populate new entry
         else:
             # set prev CRN
-            prev_crn = wb["CRN"][row]
+            prev_crn = str(int(wb["CRN"][row]))
 
             # set row, eliminate NaN values
             currRow = wb.iloc[row]
@@ -136,7 +136,8 @@ def parseExcelFile(excel_file):
 
             ret[prev_crn].CRN = prev_crn
 
-            ret[prev_crn].courseNumber    = ('%f' % currRow["Course#"]).rstrip('0').rstrip('.')
+            #ret[prev_crn].courseNumber    = ('%f' % currRow["Course#"]).rstrip('0').rstrip('.')
+            ret[prev_crn].courseNumber    = str(int(currRow["Course#"])).strip()
             ret[prev_crn].section         = currRow["Section"]
             ret[prev_crn].title           = currRow["Title"].strip()
             ret[prev_crn].instructorEmail = currRow["Instructor Email Address"].strip()

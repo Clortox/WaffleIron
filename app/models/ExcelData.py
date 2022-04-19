@@ -6,8 +6,8 @@ class ExcelData():
 
     def serialize(self):
         return {
-            'CRN' :                  self.CRN,
-            'courseNumber':          self.courseNumber,
+            'CRN' :                  str(int(self.CRN)),
+            'courseNumber':          str(int(self.courseNumber)),
             'section':               self.section,
             'title':                 self.title,
             'instructorEmail':       self.instructorEmail,
