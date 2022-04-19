@@ -59,13 +59,16 @@ class DocumentController():
                 cYear=getYear(),
                 cSem=getSemester(),
                 data={
-                    "title"           : parsedExcelFile[curr].title,
-                    "section"         : parsedExcelFile[curr].section,
-                    "building"        : parsedExcelFile[curr].building,
-                    "room"            : parsedExcelFile[curr].room,
-                    "time"            : parsedExcelFile[curr].time,
-                    "meetingDays"     : parsedExcelFile[curr].meetingDays,
-                    "instructorEmail" : parsedExcelFile[curr].instructorEmail
+                    "Title"                  : parsedExcelFile[curr].title,
+                    "Section"                : parsedExcelFile[curr].section,
+                    "Building"               : parsedExcelFile[curr].building,
+                    "Room"                   : parsedExcelFile[curr].room,
+                    "Class Time"             : parsedExcelFile[curr].time,
+                    "Meeting Days"           : parsedExcelFile[curr].meetingDays,
+                    "Contact Information"    : {
+                        "email" : parsedExcelFile[curr].instructorEmail,
+                        "name"  : parsedExcelFile[curr].instructorName
+                        }
                 }
             )
 

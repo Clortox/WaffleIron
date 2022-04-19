@@ -38,15 +38,15 @@
           {{ CRN + ': ' + otherCourses[CRN] }}
       </div>
 
-      {% for i in range(0, fieldsLen) %}
-      <label for="{{ fields[i] }}">
-        <div class="checklist-element" id="{{ fields[i] }}-checklist" value="yes">
+      {% for key, val in fields.items() %}
+      <label for="{{ key }}">
+        <div class="checklist-element" id="{{ key }}-checklist" value="yes">
             <input class="syllabus-fields" 
                    type="checkbox" 
-                   name="{{ fields[i] }}" 
-                   id="{{ fields[i] }}" 
+                   name="{{ key }}" 
+                   id="{{ key }}" 
                    value="yes" 
-                   onchange="displayField(this, '{{ fields[i] }}')">{{ fields[i] }}
+                   onchange="displayField(this, '{{ key }}')">{{ key }}
         </div>
       </label>
       {% endfor %}
@@ -60,63 +60,71 @@
 
       <form action="/saveSuccess" id="syllabus-fields-text" method="POST">
 
-      {% for i in range(0, fieldsLen) %}
-        <fieldset disabled class="fieldInfo hide" id="{{ fields[i] }}-info">
-          <legend>{{ fields[i] }}</legend>
+      {% for key, val in fields.items() %}
+        <fieldset disabled class="fieldInfo hide" id="{{ key }}-info">
+          <legend>{{ key }}</legend>
 
-            {% if fields[i] == "Contact Information" %}
+            {% if key == "Contact Information" %}
               <input type="text" 
                      class="contact-info" 
                      name="instructor-name" 
                      id="name" 
-                     placeholder="Name">
+                     placeholder="Name"
+                     value={{ val["name"] }}>
                      <br>
               <input type="text" 
                      class="contact-info" 
                      name="instructor-email" 
                      id="email" 
-                     placeholder="Email">
+                     placeholder="Email"
+                     value={{ val["email"] }}>
                      <br>
               <input type="text" 
                      class="contact-info" 
                      name="instructor-phone" 
                      id="phone" 
-                     placeholder="Phone Number [ex: (330) 123-4567]">
+                     placeholder="Phone Number [ex: (330) 123-4567]"
+                     value= {{ val["phone"] }}>
               <input type="text" 
                      class="contact-info" 
                      name="instructor-office-hours" 
                      id="office-hours" 
-                     placeholder="Office Hours">
+                     placeholder="Office Hours"
+                     value= {{ val["office-hours"] }}>
 
-            {% elif fields[i] == "Assistant Information" %}
+            {% elif key == "Assistant Information" %}
               <input type="text" 
                      class="contact-info" 
                      name="assistant-name" 
                      id="name" 
-                     placeholder="Name">
+                     placeholder="Name"
+                     value={{ val["name"] }}>
                      <br>
               <input type="text" 
                      class="contact-info" 
                      name="assistant-email" 
                      id="email" 
-                     placeholder="Email">
+                     placeholder="Email"
+                     value={{ val["email"] }}>
                      <br>
               <input type="text" 
                      class="contact-info" 
                      name="assistant-phone" 
                      id="phone" 
-                     placeholder="Phone Number [ex: (330) 123-4567]">
+                     placeholder="Phone Number [ex: (330) 123-4567]"
+                     value={{ val["phone"] }}>
               <input type="text" 
                      class="contact-info" 
                      name="assistant-office-hours" 
                      id="office-hours" 
-                     placeholder="Office Hours">
+                     placeholder="Office Hours"
+                     value={{ val["office-hours"] }}>
 
             {% else %}
               <textarea maxlength="1000" 
                      onkeyup="wordCounter(this)" 
                      class="description" 
-                     name="{{ fields[i] }}"></textarea>
+                     name="{{ key }}">{{ val }}</textarea>
               <span class="counter">Words: </span>
             {% endif %}
 

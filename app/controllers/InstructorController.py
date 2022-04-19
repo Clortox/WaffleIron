@@ -74,6 +74,8 @@ class InstructorController():
             if defField not in coursedata:
                 coursedata[defField] = ''
 
+        #return sendResponse(coursedata)
+
         # get names of other courses this instructor is in
         otherCourses = {}
         for crn in instructorCrns:
@@ -82,9 +84,7 @@ class InstructorController():
         # Return it to the view
         return render_template("instructor.html",
                 otherCourses = otherCourses,
-                otherCourseLen = len(otherCourses),
                 fields = coursedata,
-                fieldsLen = len(coursedata),
                 CRN=CRN)
 
 
