@@ -54,6 +54,7 @@ class InstructorController():
         # Get CRNs this instructor is in
         instructorCrns = user.getUserCRNs(instructor_email)
 
+
         # check validity of CRN
         if CRN == None or CRN not in instructorCrns:
             CRN = instructorCrns[0]
@@ -74,19 +75,17 @@ class InstructorController():
                 coursedata[defField] = ''
 
         # get names of other courses this instructor is in
-        otherCourses = []
+        otherCourses = {}
         for crn in instructorCrns:
-            otherCourses.append({
-                "name" : lookup.getCourseName(crn),
-                "CRN"  : crn,
-                })
+            otherCourses[crn] = lookup.getCourseName(crn)
 
         # Return it to the view
         return render_template("instructor.html",
                 otherCourses = otherCourses,
                 otherCourseLen = len(otherCourses),
                 fields = coursedata,
-                fieldsLen = len(coursedata))
+                fieldsLen = len(coursedata),
+                CRN=CRN)
 
 
 instructorcontroller = InstructorController()

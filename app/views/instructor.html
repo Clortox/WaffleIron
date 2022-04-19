@@ -18,9 +18,8 @@
       </button>
       <div class="course-list" id="course-list">
         
-      {% for i in range(0, otherCourseLen) %}
-      <a href={{ url_for('front.instructor', CRN=otherCourses[i]["CRN"]) }}>{{
-          otherCourses[i]["name"] }}</a>
+      {% for crn, name in otherCourses.items() %}
+      <a href={{ url_for('front.instructor', CRN=crn) }}>{{ name }}</a>
       {% endfor %}
 
       </div>
@@ -36,7 +35,7 @@
   <div class="main-div">
     <div class="checklist">
       <div class="section-title">
-         12393: CS45203 - Computer Network Security
+          {{ CRN + ': ' + otherCourses[CRN] }}
       </div>
 
       {% for i in range(0, fieldsLen) %}
