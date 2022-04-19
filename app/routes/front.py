@@ -1,22 +1,26 @@
-from flask import Blueprint,request,json
+from flask import Blueprint,request,json, flash
 from ..app import mongo
-#from app.waffleauth import fbsignin
 from flask import render_template
-from flask import request, redirect, make_response
+from flask import request, redirect, make_response, session
+from flask import Flask
+
 from app.controllers.HomeController import homecontroller
 from app.controllers.DocumentController import documentcontroller
 from app.helpers.Utility import sendResponse
+from app.models.User import user
 
 from Schedule_Linker import getLookup
 from random import seed, randint
+from functools import wraps
 import passwords
-
+import pymongo
 
 front = Blueprint("front", __name__)
 
-testCourses = ["20145: CS43203 - Systems Programming", 
-               "12412: CS49999 - Capstone", 
-               "12393: CS45203 - Computer Network Security"
+testCourses = [
+    "20145: CS43203 - Systems Programming", 
+    "12412: CS49999 - Capstone", 
+    "12393: CS45203 - Computer Network Security"
 ]
 
 defaultFields = [
@@ -48,22 +52,98 @@ requiredFields = [
     "Student Survey of Instruction (SSI)"
 ]
 
-@front.route('/', methods=['GET'])
-def home():
-    return homecontroller.index()
 
-@front.route('/saveSuccess', methods=['POST'])
+# Decorators
+def login_required(f):
+    @wraps(f)
+    def wrap(*arg, **kwargs):
+        if 'logged_in' in session:
+            return f(*arg, **kwargs)
+        else:
+            return redirect("/login")
+
+    return wrap
+
+def admin_only(f):
+    @wraps(f)
+    def wrap(*arg, **kwargs):
+        if('user_email' in session):
+            role = user.getUserRole(session['user_email'])
+            if(role != 'ADMIN'):
+                return redirect("/denied")
+            else:
+                return f(*arg, **kwargs)
+
+    return wrap
+
+def scheduler_only(f):
+    @wraps(f)
+    def wrap(*arg, **kwargs):
+        if('user_email' in session):
+            role = user.getUserRole(session['user_email'])
+            if(role != 'SCHEDULER'):
+                return redirect("/denied")
+            else:
+                return f(*arg, **kwargs)
+
+    return wrap
+
+
+def prof_only(f):
+    @wraps(f)
+    def wrap(*arg, **kwargs):
+        if('user_email' in session):
+            role = user.getUserRole(session['user_email'])
+            if(role != 'PROF'):
+                return redirect("/denied")
+            else:
+                return f(*arg, **kwargs)
+
+    return wrap
+
+
+# Routes
+@front.route('/')
+@front.route('/login/')
+def login_page():
+    return render_template("login.html")
+
+
+@front.route('/login/', methods=['POST', 'GET'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+    if user.userExists(email) and passwords.verify_password(password, user.getUserHash(email)):
+        role = user.getUserRole(email)
+        session = user.startSession(email)
+
+        if(role == "PROF"):
+            return redirect("/instructor")
+        elif(role == "ADMIN"):
+            return redirect("/administrator")
+        else:
+            return redirect("/scheduler")
+    else:
+        flash("Incorrect username or password.")
+        return redirect("/login")
+
+
+@front.route('/saveSuccess/', methods=['POST'])
 def sendInfo():
     descriptions = request.form
 
     for key in descriptions.keys():
         for value in descriptions.getlist(key):
-            print(key,":",value)
+            pprint(key,":",value)
 
     return render_template("saveSuccess.html")
 
 
-@front.route('/instructor', methods=['GET', 'POST'])
+@front.route('/instructor/', methods=['GET', 'POST'])
+@login_required
+@prof_only
 def instructor():
     return render_template("instructor.html",
         defaultFields = defaultFields,
@@ -73,7 +153,9 @@ def instructor():
     )
 
 
-@front.route('/administrator', methods=['GET', 'POST'])
+@front.route('/administrator/', methods=['GET', 'POST'])
+@login_required
+@admin_only
 def administrator():
     return render_template("administrator.html",
         requiredFields = requiredFields,
@@ -81,19 +163,23 @@ def administrator():
     )
 
 
-@front.route('/scheduler', methods=['GET', 'POST'])
+@front.route('/scheduler/', methods=['GET', 'POST'])
+@login_required
+@scheduler_only
 def scheduler():
     return render_template("scheduler.html")
 
 
 # Displays register page
-@front.route('/register')
+@front.route('/register/')
+@login_required
 def register_page():
     return render_template("register.html")
 
 
 # Handles register operations
-@front.route('/register', methods=['POST'])
+@front.route('/register/', methods=['POST'])
+@login_required
 def register():
     email = request.form['email']
     password = request.form['password']
@@ -104,35 +190,35 @@ def register():
 
     password = passwords.encode_password(password)
 
-    print("Email: ", email)
-    print("password: ", password)
+    if user.userExists(email):
+        print(email, " already exists")
+    else:
+        print(email, " does not exist")
 
     return redirect("/login")
 
 
-@front.route('/login')
-def login_page():
-    return render_template("login.html")
+@front.route('/denied')
+def denied():
+    return render_template("denied.html")
 
 
-@front.route('/login', methods=['POST', 'GET'])
-def login():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
+@front.route('/logout/')
+@login_required
+def logout():
+    session.clear()
+    return redirect('/login')
 
-    resp = make_response(render_template("login.html"))
-    resp.set_cookie('userID', email)
-
-    return resp
-
-
-@front.route('/document/docx/<CRN>', methods=['GET'])
+@front.route('/document/docx/<CRN>/', methods=['GET'])
+@login_required
+@prof_only
 def document(CRN):
     return documentcontroller.document(CRN)
 
 
 @front.route('/document/excel/', methods=['POST'])
+@login_required
+@scheduler_only
 def excel():
     excelDict = documentcontroller.excel(request.files['excelFile'])
     return sendResponse(excelDict)

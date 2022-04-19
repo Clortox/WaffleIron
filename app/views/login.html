@@ -23,6 +23,14 @@
             <label for="password">Password</label>
               <input type="password" placeholder="Enter your password" name="password" required>
 
+              {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                  {% for msg in messages %}
+                    <p class="error-msg">{{ msg }}</p>
+                  {% endfor %}
+                {% endif %}
+              {% endwith %}
+
             <button class="sign-in" type="submit">Login</button>
           </form>
         </div>

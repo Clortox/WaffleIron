@@ -292,3 +292,7 @@ tr, th, td {
 	margin: 5px;
 	width: 95%;
 }
+
+.error-msg {
+	color: red;
+}
