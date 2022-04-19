@@ -74,8 +74,6 @@ class InstructorController():
             if defField not in coursedata:
                 coursedata[defField] = ''
 
-        #return sendResponse(coursedata)
-
         # get names of other courses this instructor is in
         otherCourses = {}
         for crn in instructorCrns:
@@ -87,5 +85,15 @@ class InstructorController():
                 fields = coursedata,
                 CRN=CRN)
 
+    def updateInstructor(self, instructor_email, CRN, updated_info):
+        # update fields
+        course.update_cFields(
+                course_ID=lookup.getCourseID(CRN),
+                CRN=CRN,
+                fields=updated_info
+                )
+
+        # return updated interface
+        return self.getInstructor(instructor_email, CRN)
 
 instructorcontroller = InstructorController()

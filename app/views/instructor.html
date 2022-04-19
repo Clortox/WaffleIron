@@ -58,7 +58,7 @@
          Syllabus Fields
       </div>
 
-      <form action="/saveSuccess" id="syllabus-fields-text" method="POST">
+      <form action={{ url_for('front.sendInfo', CRN=CRN) }} id="syllabus-fields-text" method="POST">
 
       {% for key, val in fields.items() %}
         <fieldset disabled class="fieldInfo hide" id="{{ key }}-info">

@@ -131,18 +131,17 @@ def login():
         return redirect("/login")
 
 
-@front.route('/saveSuccess/', methods=['POST'])
-def sendInfo():
-    descriptions = request.form
+@front.route('/saveSuccess/<CRN>', methods=['POST'])
+def sendInfo(CRN):
+    updated_info = {}
+    for key in request.form:
+        updated_info[key] = request.form[key]
 
-    for key in descriptions.keys():
-        for value in descriptions.getlist(key):
-            pprint(key,":",value)
-
-    return render_template("saveSuccess.html")
+    return instructorcontroller.updateInstructor(session['user_email'], CRN,
+            updated_info=updated_info)
 
 @front.route('/instructor/', methods=['GET'])
-@front.route('/instructor/<CRN>', methods=['GET', 'POST'])
+@front.route('/instructor/<CRN>', methods=['GET'])
 @login_required
 @prof_only
 def instructor(CRN=None):

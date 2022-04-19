@@ -36,21 +36,21 @@ class Course():
     # This function takes a dictionary and edits the stored class fields
     # Useful to make one function call to change multiple fields!
     def update_cFields(self, course_ID, CRN, fields):
-        data = get_data(course_ID, CRN)
+        data = self.get_data(course_ID, CRN)
 
         # First, checks to see which fields must be removed.
         # This is done by seeing which of the stored keys is
         # not present in the dataset being saved / overwritten.
         for key in data.keys():
             if fields.get(key) is None:
-                remove_cFields(course_ID, CRN, key)
+                self.remove_cFields(course_ID, CRN, key)
 
         # Any other data is set in the cFields. The "$set" command works
         # properly when you take into account Nested Documents.
         # This means that adding new fields and updating new fields will work
         # exactly the same!
         for key in fields.keys():
-            add_cFields(course_ID, CRN, key, fields.get(key))
+            self.add_cFields(course_ID, CRN, key, fields.get(key))
 
 
     # When arbitrarily updating the data fields, we will need to actively call these functions in order to
