@@ -6,6 +6,7 @@ from flask import Flask
 
 from app.controllers.HomeController import homecontroller
 from app.controllers.DocumentController import documentcontroller
+from app.controllers.InstructorController import instructorcontroller
 from app.helpers.Utility import sendResponse
 from app.models.User import user
 
@@ -109,7 +110,7 @@ def login_page():
     return render_template("login.html")
 
 
-@front.route('/login/', methods=['POST', 'GET'])
+@front.route('/login/', methods=['POST'])
 def login():
     if request.method == 'POST':
         email = request.form['email']
@@ -120,11 +121,11 @@ def login():
         session = user.startSession(email)
 
         if(role == "PROF"):
-            return redirect("/instructor")
+            return redirect("/instructor/")
         elif(role == "ADMIN"):
-            return redirect("/administrator")
+            return redirect("/administrator/")
         else:
-            return redirect("/scheduler")
+            return redirect("/scheduler/")
     else:
         flash("Incorrect username or password.")
         return redirect("/login")
@@ -140,17 +141,13 @@ def sendInfo():
 
     return render_template("saveSuccess.html")
 
-
-@front.route('/instructor/', methods=['GET', 'POST'])
+@front.route('/instructor/', methods=['GET'])
+@front.route('/instructor/<CRN>', methods=['GET', 'POST'])
 @login_required
 @prof_only
-def instructor():
-    return render_template("instructor.html",
-        defaultFields = defaultFields,
-        fieldsLen = len(defaultFields),
-        testCourses = testCourses,
-        courseLen = len(testCourses)
-    )
+def instructor(CRN=None):
+    if request.method == 'GET':
+        return instructorcontroller.getInstructor(session['user_email'], CRN)
 
 
 @front.route('/administrator/', methods=['GET', 'POST'])
@@ -164,8 +161,8 @@ def administrator():
 
 
 @front.route('/scheduler/', methods=['GET', 'POST'])
-@login_required
-@scheduler_only
+#@login_required
+#@scheduler_only
 def scheduler():
     return render_template("scheduler.html")
 
@@ -217,8 +214,8 @@ def document(CRN):
 
 
 @front.route('/document/excel/', methods=['POST'])
-@login_required
-@scheduler_only
+#@login_required
+#@scheduler_only
 def excel():
     excelDict = documentcontroller.excel(request.files['excelFile'])
     return sendResponse(excelDict)
