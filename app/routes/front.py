@@ -7,6 +7,7 @@ from flask import Flask
 from app.controllers.HomeController import homecontroller
 from app.controllers.DocumentController import documentcontroller
 from app.controllers.InstructorController import instructorcontroller
+from app.controllers.SchedulerController import schedulercontroller
 from app.helpers.Utility import sendResponse
 from app.models.User import user
 
@@ -163,7 +164,10 @@ def administrator():
 #@login_required
 #@scheduler_only
 def scheduler():
-    return render_template("scheduler.html")
+    if request.method == "GET":
+        return schedulercontroller.getSchedule()
+    else:
+        return schedulercontroller.updateSchedule()
 
 
 # Displays register page
@@ -216,5 +220,8 @@ def document(CRN):
 #@login_required
 #@scheduler_only
 def excel():
-    excelDict = documentcontroller.excel(request.files['excelFile'])
-    return sendResponse(excelDict)
+    try:
+        excelDict = documentcontroller.excel(request.files['excelFile'])
+    except:
+        pass
+    return redirect(url_for('front.scheduler'))

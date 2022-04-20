@@ -42,8 +42,6 @@
          Assign CRNs
         </div>
         <table>
-         {% for i in range(200) %}
-            {% if i == 0 %}
             <tr>
                <th>CRN</th>
                <th>Course Number</th>
@@ -55,19 +53,18 @@
                <th>Meeting Days</th>
                <th>Meeting Time</th>
             </tr>
-            {% else %}
+         {% for key,val in CRNs.items() %}
             <tr>
-               <th><input size = '' style="width:90%"></th>
-               <th><input size = '' style="width:90%"></th>
-               <th><input size = '' style="width:90%"></th>
-               <th><input size = '' style="width:90%"></th>
-               <th><input size = '' style="width:90%"></th>
-               <th><input size = '' style="width:90%"></th>
-               <th><input size = '' style="width:90%"></th>
-               <th><input size = '' style="width:90%"></th>
-               <th><input size = '' style="width:90%"></th>
+               <th><input size = '' style="width:90%" value='{{ key }}'></th>
+               <th><input size = '' style="width:90%" value='{{ val["courseNumber"] }}'></th>
+               <th><input size = '' style="width:90%" value='{{ val["section"] }}'></th>
+               <th><input size = '' style="width:90%" value='{{ val["courseName"] }}'></th>
+               <th><input size = '' style="width:90%" value='{{ val["instructorEmail"] }}'></th>
+               <th><input size = '' style="width:90%" value='{{ val["building"] }}'></th>
+               <th><input size = '' style="width:90%" value='{{ val["roomNumber"] }}' ></th>
+               <th><input size = '' style="width:90%" value='{{ val["meetingDays"] }}' ></th>
+               <th><input size = '' style="width:90%" value='{{ val["meetingTime"] }}' ></th>
             </tr>
-            {% endif %}
          {% endfor %}
          </table>
       </div>
