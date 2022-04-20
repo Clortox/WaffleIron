@@ -19,7 +19,7 @@
       <div class="course-list" id="course-list">
         
       {% for crn, name in otherCourses.items() %}
-      <a href={{ url_for('front.instructor', CRN=crn) }}>{{ name }}</a>
+      <a href={{ url_for('front.instructor', CRN=crn) }}>{{ crn + ' ' + name }}</a>
       {% endfor %}
 
       </div>
