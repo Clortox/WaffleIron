@@ -17,19 +17,21 @@ class SchedulerController():
 
     def getSchedule(self):
         CRNs = {}
+        # build table entries
         for entry in lookup.getCourses():
             for crn in entry["CRNs"]:
                 courseID = lookup.getCourseID(crn)
                 coursefile = course.get_data(courseID, crn)
+                # build a single row
                 CRNs[crn] = {
-                        "courseNumber" : courseID,
-                        "section"      : coursefile["Section"],
-                        "courseName"   : coursefile["Title"],
-                        "instructorEmail" : coursefile["instructor-email"],
-                        "building"        : coursefile["Building"],
-                        "roomNumber"      : coursefile["Room"],
-                        "meetingDays"     : coursefile["Meeting Days"],
-                        "meetingTime"     : coursefile["Class Time"],
+                        "courseNumber"     : courseID,
+                        "Section"          : coursefile["Section"],
+                        "Title"            : coursefile["Title"],
+                        "instructor-email" : coursefile["instructor-email"],
+                        "Building"         : coursefile["Building"],
+                        "Room"             : coursefile["Room"],
+                        "Meeting Days"     : coursefile["Meeting Days"],
+                        "Class Time"       : coursefile["Class Time"],
                     }
 
         return render_template('scheduler.html',
@@ -38,9 +40,18 @@ class SchedulerController():
                 firstRow = False)
 
     def updateSchedule(self, updated_info):
-        for entry in update_info:
-            #TODO insert values from update_info into database
-            pass
+        # for each course
+        for entry in updated_info:
+            #update cfields
+            crn = entry.pop('CRN', None)
+            coursenumber = entry.pop('courseNumber', None)
 
-        pass
+            course.update_cFields(
+                    course_ID=coursenumber,
+                    CRN=crn,
+                    fields=entry
+                )
+
+        return redirect(url_for('front.scheduler'))
+
 schedulercontroller = SchedulerController()

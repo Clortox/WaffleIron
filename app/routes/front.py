@@ -170,24 +170,24 @@ def scheduler():
         updated_info = []
         CRN          = request.form.getlist('CRN')
         courseNumber = request.form.getlist('courseNumber')
-        section      = request.form.getlist('section')
-        courseName   = request.form.getlist('courseName')
-        instructor   = request.form.getlist('instructor')
-        building     = request.form.getlist('building')
-        roomNumber   = request.form.getlist('roomNumber')
-        meetingDays  = request.form.getlist('meetingDays')
-        meetingTimes = request.form.getlist('meetingTimes')
-        for i in len(CRN):
+        section      = request.form.getlist('Section')
+        courseName   = request.form.getlist('Title')
+        instructor   = request.form.getlist('instructor-email')
+        building     = request.form.getlist('Building')
+        roomNumber   = request.form.getlist('Room')
+        meetingDays  = request.form.getlist('Meeting Days')
+        meetingTimes = request.form.getlist('Class Time')
+        for i in range(0, len(CRN)):
             updated_info.append({
                 "CRN"          : CRN[i],
                 "courseNumber" : courseNumber[i],
-                "section"      : section[i],
-                "courseName"   : courseName[i],
-                "instructor"   : instructor[i],
-                "building"     : building[i],
-                "roomNumber"   : roomNumber[i],
-                "meetingDays"  : meetingDays[i],
-                "meetingTimes" : meetingTimes[i],
+                "Section"      : section[i],
+                "Title"        : courseName[i],
+                "instructor-email"   : instructor[i],
+                "Building"     : building[i],
+                "Room"   : roomNumber[i],
+                "Meeting Days"  : meetingDays[i],
+                "Class Time" : meetingTimes[i],
                 })
         return schedulercontroller.updateSchedule(updated_info)
 
