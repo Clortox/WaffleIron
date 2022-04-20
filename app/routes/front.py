@@ -121,7 +121,7 @@ def login():
         role = user.getUserRole(email)
         session = user.startSession(email)
 
-        if password == "password":
+        if password == "!WaffleDefault#":
             return redirect("/updatepassword/")
 
         if(role == "PROF"):
