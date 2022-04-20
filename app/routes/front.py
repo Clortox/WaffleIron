@@ -1,7 +1,7 @@
 from flask import Blueprint,request,json, flash
 from ..app import mongo
 from flask import render_template
-from flask import request, redirect, make_response, session
+from flask import request, redirect, make_response, session, url_for
 from flask import Flask
 
 from app.controllers.HomeController import homecontroller
@@ -129,7 +129,7 @@ def login():
             return redirect("/scheduler/")
     else:
         flash("Incorrect username or password.")
-        return redirect("/login")
+        return redirect("/login/")
 
 
 @front.route('/saveSuccess/<CRN>', methods=['POST'])
@@ -195,6 +195,7 @@ def scheduler():
 # Displays register page
 @front.route('/register/')
 @login_required
+@admin_only
 def register_page():
     return render_template("register.html")
 
@@ -202,22 +203,63 @@ def register_page():
 # Handles register operations
 @front.route('/register/', methods=['POST'])
 @login_required
+@admin_only
 def register():
     email = request.form['email']
     password = request.form['password']
     passwordConfirm = request.form['password_confirm']
+    role = request.form['role-select']
+
+    if user.userExists(email):
+        flash("That user already exists.")
+        return redirect(url_for('front.register'))
 
     if password != passwordConfirm:
-        return render_template('register.html')
+        flash("Sorry, the passwords do not match")
+        return redirect(url_for('front.register'))
+
+    if "@kent.edu" not in email:
+        flash("Please enter a KSU email.")
+        return redirect(url_for('front.register'))
 
     password = passwords.encode_password(password)
 
-    if user.userExists(email):
-        print(email, " already exists")
-    else:
-        print(email, " does not exist")
+    user.createUser(ID=email, hash=password, role=role)
+    flash("User " + email + " created with role: " + role)
+    return redirect(url_for('front.register'))
 
-    return redirect("/login")
+
+@front.route('/remove/')
+@login_required
+@admin_only
+def remove():
+    return render_template("removeUser.html")
+
+
+@front.route('/remove/', methods=['POST'])
+@login_required
+@admin_only
+def removeUser():
+    emailToRemove = request.form['email']
+    adminPass = request.form['password']
+
+    adminEmail = session['user_email']
+
+    if not user.userExists(emailToRemove):
+        flash("Sorry, that user is not in the database")
+        return redirect('/remove/')
+
+    if not passwords.verify_password(adminPass, user.getUserHash(adminEmail)):
+        flash("Sorry, incorrect password. Please try again")
+        return redirect('/remove/')
+
+    if emailToRemove == adminEmail:
+        flash("You cannot delete yourself!")
+        return redirect('/remove/')
+
+    user.deleteUser(emailToRemove)
+    flash("User " + emailToRemove + " has been removed.")
+    return redirect('/remove/')
 
 
 @front.route('/denied')

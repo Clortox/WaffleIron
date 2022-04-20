@@ -24,6 +24,16 @@ body {
 	text-decoration: none;
 }
 
+.navbar p {
+	float: left;
+	font-size: 16px;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	font-family: inherit;
+	text-decoration: none;
+}
+
 .navbar input[type=submit] {
 	float: left;
 	font-size: 16px;

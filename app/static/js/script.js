@@ -16,21 +16,6 @@ function initialCheck() {
 }
 
 
-function comparePasswords(form) {
-	let password1 = form.password.value;
-	let password2 = form.password_confirm.value;
-
-	if(password1 != password2) {
-		alert("Password1: " + password1 + "\nPassword2: " + password2);
-		return false;
-	}
-	else {
-		alert("Passwords match");
-		return true;
-	}
-}
-
-
 function openUpload() {
 	document.getElementById("file-upload").click();
 }
