@@ -85,7 +85,7 @@ class InstructorController():
         return render_template("instructor.html",
                 otherCourses = otherCourses,
                 fields = coursedata,
-                CRN=CRN)
+                CRN=str(CRN))
 
     def updateInstructor(self, instructor_email, CRN, updated_info):
         # update fields
