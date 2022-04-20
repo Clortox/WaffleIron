@@ -121,6 +121,9 @@ def login():
         role = user.getUserRole(email)
         session = user.startSession(email)
 
+        if password == "password":
+            return redirect("/updatepassword/")
+
         if(role == "PROF"):
             return redirect("/instructor/")
         elif(role == "ADMIN"):
@@ -130,6 +133,34 @@ def login():
     else:
         flash("Incorrect username or password.")
         return redirect("/login/")
+
+
+@front.route('/updatepassword/')
+@login_required
+def updatePassword():
+    return render_template("updatePassword.html")
+
+
+@front.route('/updatepassword/', methods=['POST'])
+@login_required
+def updatePasswordForm():
+    password = request.form['password']
+    passwordConfirm = request.form['password_confirm']
+
+    if password != passwordConfirm:
+        flash("Sorry, the passwords do not match")
+        return redirect(url_for('front.updatePassword'))
+
+    ID = session['user_email']
+    role = user.getUserRole(ID)
+    user.changePass(ID, passwords.encode_password(password))
+
+    if(role == "PROF"):
+        return redirect("/instructor/")
+    elif(role == "ADMIN"):
+        return redirect("/administrator/")
+            
+    return redirect("/scheduler/")
 
 
 @front.route('/saveSuccess/<CRN>', methods=['POST'])

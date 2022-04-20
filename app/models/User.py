@@ -69,8 +69,11 @@ class User():
 
     # This is a temporary placement just to access and change the password.
     # This will be moved when more security and login stuff is added.
-    def changePass(self):
-        return
+    def changePass(self, ID, hash):
+        users = self.setPath()
+        user = users.find_one({"_id": ID})
+        users.update_one(user, {"$set": {"hash": hash}})
+        
 
 
     def addCRN(self, ID, crn):

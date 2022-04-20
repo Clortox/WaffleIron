@@ -95,7 +95,7 @@ class DocumentController():
                 #otherwise add new instructor
                 user.createUser(
                         ID=parsedExcelFile[curr].instructorEmail,
-                        hash=encode_password('password'),
+                        hash=encode_password('!WaffleDefault#'),
                         contact = {
                             "email" : parsedExcelFile[curr].instructorEmail,
                             "name"  : parsedExcelFile[curr].instructorName
