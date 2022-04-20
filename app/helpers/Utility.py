@@ -53,7 +53,7 @@ def generateSyllabus(professor, course, CRN):
 
     # course fields
     for field in course["cFields"]:
-        if field != "Contact Information":
+        if "instructor" not in field and "assistant" not in field and course["cFields"][field] != '':
             doc.add_heading(field, level=1)
             doc.add_paragraph(str(course["cFields"][field]))
 

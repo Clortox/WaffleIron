@@ -23,7 +23,7 @@ class DocumentController():
                 CRN=classCRN)
 
         # get professor
-        prof = user.getUserContact(str(courseData["cFields"]["Contact Information"]["email"]))
+        prof = user.getUserContact(str(courseData["cFields"]["instructor-email"]))
 
 
         syllabus = generateSyllabus(
@@ -65,10 +65,8 @@ class DocumentController():
                     "Room"                   : parsedExcelFile[curr].room,
                     "Class Time"             : parsedExcelFile[curr].time,
                     "Meeting Days"           : parsedExcelFile[curr].meetingDays,
-                    "Contact Information"    : {
-                        "email" : parsedExcelFile[curr].instructorEmail,
-                        "name"  : parsedExcelFile[curr].instructorName
-                        }
+                    "instructor-email"       : parsedExcelFile[curr].instructorEmail,
+                    "instructor-name"        : parsedExcelFile[curr].instructorName,
                 }
             )
 

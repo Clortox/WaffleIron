@@ -61,7 +61,7 @@
       <form action={{ url_for('front.sendInfo', CRN=CRN) }} id="syllabus-fields-text" method="POST">
 
       {% for key, val in fields.items() %}
-        <fieldset disabled class="fieldInfo hide" id="{{ key }}-info">
+      <fieldset enabled class="fieldInfo hide" id="{{ key }}-info">
           <legend>{{ key }}</legend>
 
             {% if key == "Contact Information" %}
@@ -70,27 +70,27 @@
                      name="instructor-name" 
                      id="name" 
                      placeholder="Name"
-                     value={{ val["name"] }}>
+                     value={{ val["instructor-name"] }}>
                      <br>
               <input type="text" 
                      class="contact-info" 
                      name="instructor-email" 
                      id="email" 
                      placeholder="Email"
-                     value={{ val["email"] }}>
+                     value={{ val["instructor-email"] }}>
                      <br>
               <input type="text" 
                      class="contact-info" 
                      name="instructor-phone" 
                      id="phone" 
                      placeholder="Phone Number [ex: (330) 123-4567]"
-                     value= {{ val["phone"] }}>
+                     value= {{ val["instructor-phone"] }}>
               <input type="text" 
                      class="contact-info" 
                      name="instructor-office-hours" 
                      id="office-hours" 
                      placeholder="Office Hours"
-                     value= {{ val["office-hours"] }}>
+                     value= {{ val["instructor-office-hours"] }}>
 
             {% elif key == "Assistant Information" %}
               <input type="text" 
@@ -98,27 +98,27 @@
                      name="assistant-name" 
                      id="name" 
                      placeholder="Name"
-                     value={{ val["name"] }}>
+                     value={{ val["assistant-name"] }}>
                      <br>
               <input type="text" 
                      class="contact-info" 
                      name="assistant-email" 
                      id="email" 
                      placeholder="Email"
-                     value={{ val["email"] }}>
+                     value={{ val["assistant-email"] }}>
                      <br>
               <input type="text" 
                      class="contact-info" 
                      name="assistant-phone" 
                      id="phone" 
                      placeholder="Phone Number [ex: (330) 123-4567]"
-                     value={{ val["phone"] }}>
+                     value={{ val["assistant-phone"] }}>
               <input type="text" 
                      class="contact-info" 
                      name="assistant-office-hours" 
                      id="office-hours" 
                      placeholder="Office Hours"
-                     value={{ val["office-hours"] }}>
+                     value={{ val["assistant-office-hours"] }}>
 
             {% else %}
               <textarea maxlength="1000" 

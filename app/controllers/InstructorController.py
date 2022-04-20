@@ -1,6 +1,8 @@
 from flask import request
 from flask import render_template
 from flask import send_file
+from flask import redirect
+from flask import url_for
 import hashlib
 import io
 from app.helpers.Utility   import generateSyllabus,parseExcelFile,sendResponse,getYear,getSemester
@@ -13,8 +15,8 @@ class InstructorController():
 
     defaultFields = [
         "Course Times",
-        "Contact Information",
-        "Assistant Information",
+        #"Contact Information",
+        #"Assistant Information",
         "Course Description",
         "Prerequisites",
         "Kent Core Fulfillments",
@@ -94,6 +96,6 @@ class InstructorController():
                 )
 
         # return updated interface
-        return self.getInstructor(instructor_email, CRN)
+        return redirect(url_for('front.instructor', CRN=CRN))
 
 instructorcontroller = InstructorController()

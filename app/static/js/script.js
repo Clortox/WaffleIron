@@ -64,11 +64,11 @@ function displayField(self, fieldName) {
 	var field = document.getElementById(fieldName + "-info");
 	if(self.checked) {
 		field.classList.remove('hide');
-		field.disabled = false;
+                //field.disabled = false;
 	}
 	else {
 		field.classList.add('hide');
-		field.disabled = true;
+		//field.disabled = true;
 	}
 }
 
