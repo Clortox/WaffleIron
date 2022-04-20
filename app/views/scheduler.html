@@ -13,6 +13,7 @@
 <body>
   <div class="navbar">
     <b href="/logout">Logout</b>
+    <input type="submit" form="scheduler-fields" value="Save">
     <b href="#">Save</b>
 
     <form action="/document/excel/" 
@@ -41,6 +42,7 @@
       <div class="scheduler-title">
          Assign CRNs
         </div>
+        <form action={{ url_for('front.scheduler') }} id="scheduler-fields" method="POST">
         <table>
             <tr>
                <th>CRN</th>
@@ -55,18 +57,19 @@
             </tr>
          {% for key,val in CRNs.items() %}
             <tr>
-               <th><input size = '' style="width:90%" value='{{ key }}'></th>
-               <th><input size = '' style="width:90%" value='{{ val["courseNumber"] }}'></th>
-               <th><input size = '' style="width:90%" value='{{ val["section"] }}'></th>
-               <th><input size = '' style="width:90%" value='{{ val["courseName"] }}'></th>
-               <th><input size = '' style="width:90%" value='{{ val["instructorEmail"] }}'></th>
-               <th><input size = '' style="width:90%" value='{{ val["building"] }}'></th>
-               <th><input size = '' style="width:90%" value='{{ val["roomNumber"] }}' ></th>
-               <th><input size = '' style="width:90%" value='{{ val["meetingDays"] }}' ></th>
-               <th><input size = '' style="width:90%" value='{{ val["meetingTime"] }}' ></th>
+               <th><input type="text" name="CRN" size = '' style="width:90%" value='{{ key }}'></th>
+               <th><input type="text" name="courseNumber" size = '' style="width:90%" value='{{ val["courseNumber"] }}'></th>
+               <th><input type="text" name="section" size = '' style="width:90%" value='{{ val["section"] }}'></th>
+               <th><input type="text" name="courseName" size = '' style="width:90%" value='{{ val["courseName"] }}'></th>
+               <th><input type="text" name="instructor" size = '' style="width:90%" value='{{ val["instructorEmail"] }}'></th>
+               <th><input type="text" name="building" size = '' style="width:90%" value='{{ val["building"] }}'></th>
+               <th><input type="text" name="roomNumber" size = '' style="width:90%" value='{{ val["roomNumber"] }}' ></th>
+               <th><input type="text" name="meetingDays" size = '' style="width:90%" value='{{ val["meetingDays"] }}' ></th>
+               <th><input type="text" name="meetingTimes" size = '' style="width:90%" value='{{ val["meetingTime"] }}' ></th>
             </tr>
          {% endfor %}
          </table>
+         </form>
       </div>
 </body>
 </html>

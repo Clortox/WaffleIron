@@ -37,7 +37,10 @@ class SchedulerController():
                 CRNsCount = len(CRNs),
                 firstRow = False)
 
-    def updateSchedule(self):
-        pass
+    def updateSchedule(self, updated_info):
+        for entry in update_info:
+            #TODO insert values from update_info into database
+            pass
 
+        pass
 schedulercontroller = SchedulerController()

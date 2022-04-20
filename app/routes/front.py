@@ -167,7 +167,29 @@ def scheduler():
     if request.method == "GET":
         return schedulercontroller.getSchedule()
     else:
-        return schedulercontroller.updateSchedule()
+        updated_info = []
+        CRN          = request.form.getlist('CRN')
+        courseNumber = request.form.getlist('courseNumber')
+        section      = request.form.getlist('section')
+        courseName   = request.form.getlist('courseName')
+        instructor   = request.form.getlist('instructor')
+        building     = request.form.getlist('building')
+        roomNumber   = request.form.getlist('roomNumber')
+        meetingDays  = request.form.getlist('meetingDays')
+        meetingTimes = request.form.getlist('meetingTimes')
+        for i in len(CRN):
+            updated_info.append({
+                "CRN"          : CRN[i],
+                "courseNumber" : courseNumber[i],
+                "section"      : section[i],
+                "courseName"   : courseName[i],
+                "instructor"   : instructor[i],
+                "building"     : building[i],
+                "roomNumber"   : roomNumber[i],
+                "meetingDays"  : meetingDays[i],
+                "meetingTimes" : meetingTimes[i],
+                })
+        return schedulercontroller.updateSchedule(updated_info)
 
 
 # Displays register page
