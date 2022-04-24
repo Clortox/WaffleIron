@@ -8,6 +8,8 @@ from app.controllers.HomeController import homecontroller
 from app.controllers.DocumentController import documentcontroller
 from app.controllers.InstructorController import instructorcontroller
 from app.controllers.SchedulerController import schedulercontroller
+from app.controllers.AdminController import admincontroller
+from app.controllers.LoginController import logincontroller
 from app.helpers.Utility import sendResponse
 from app.models.User import user
 
@@ -108,7 +110,7 @@ def prof_only(f):
 @front.route('/')
 @front.route('/login/')
 def login_page():
-    return render_template("login.html")
+    return logincontroller.getLogin()
 
 
 @front.route('/login/', methods=['POST'])
@@ -116,29 +118,12 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-
-    if user.userExists(email) and passwords.verify_password(password, user.getUserHash(email)):
-        role = user.getUserRole(email)
-        session = user.startSession(email)
-
-        if password == "!WaffleDefault#":
-            return redirect("/updatepassword/")
-
-        if(role == "PROF"):
-            return redirect("/instructor/")
-        elif(role == "ADMIN"):
-            return redirect("/administrator/")
-        else:
-            return redirect("/scheduler/")
-    else:
-        flash("Incorrect username or password.")
-        return redirect("/login/")
-
+        return logincontroller.checkLogin(email, password)
 
 @front.route('/updatepassword/')
 @login_required
 def updatePassword():
-    return render_template("updatePassword.html")
+    return logincontroller.updatePassword()
 
 
 @front.route('/updatepassword/', methods=['POST'])
@@ -146,21 +131,10 @@ def updatePassword():
 def updatePasswordForm():
     password = request.form['password']
     passwordConfirm = request.form['password_confirm']
-
-    if password != passwordConfirm:
-        flash("Sorry, the passwords do not match")
-        return redirect(url_for('front.updatePassword'))
-
     ID = session['user_email']
-    role = user.getUserRole(ID)
-    user.changePass(ID, passwords.encode_password(password))
 
-    if(role == "PROF"):
-        return redirect("/instructor/")
-    elif(role == "ADMIN"):
-        return redirect("/administrator/")
-            
-    return redirect("/scheduler/")
+    return logincontroller.updatePasswordPost(password, passwordConfirm, ID)
+
 
 
 @front.route('/saveSuccess/<CRN>', methods=['POST'])
@@ -185,11 +159,14 @@ def instructor(CRN=None):
 @login_required
 @admin_only
 def administrator():
-    return render_template("administrator.html",
-        requiredFields = requiredFields,
-        fieldsLen = len(requiredFields)
-    )
+    if request.method == 'GET':
+        return admincontroller.getAdmin()
+    else:
+        updated_info = {}
+        for entry in requiredFields:
+            updated_info[entry] = request.form.getlist(entry)
 
+        return admincontroller.setAdmin(updated_info)
 
 @front.route('/scheduler/', methods=['GET', 'POST'])
 #@login_required
