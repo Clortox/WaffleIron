@@ -156,15 +156,19 @@ def instructor(CRN=None):
 
 
 @front.route('/administrator/', methods=['GET', 'POST'])
-@login_required
-@admin_only
+#@login_required
+#@admin_only
 def administrator():
     if request.method == 'GET':
         return admincontroller.getAdmin()
     else:
         updated_info = {}
         for entry in requiredFields:
-            updated_info[entry] = request.form.getlist(entry)
+            temp = request.form.getlist(entry)
+            if not temp:
+                updated_info[entry] = ""
+            else:
+                updated_info[entry] = request.form.getlist(entry)[0]
 
         return admincontroller.setAdmin(updated_info)
 

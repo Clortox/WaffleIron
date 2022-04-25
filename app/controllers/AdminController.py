@@ -33,16 +33,18 @@ class AdminController():
         pass
 
     def getAdmin(self):
-        #TODO get fields from data base
+        # get fields from database
         dbrequiredFields = []
+        requiredFieldsLookup = set()
         for policy in recomendedpolicy.getAllPolicy():
             dbrequiredFields.append({
                 "pName"       : policy["_id"],
                 "policy_data" : policy["policy_data"]
                 })
+            requiredFieldsLookup.add(policy["_id"])
 
         for field in requiredFields:
-            if field not in dbrequiredFields:
+            if field not in requiredFieldsLookup:
                 dbrequiredFields.append({
                     "pName"       : field,
                     "policy_data" : ''
@@ -56,12 +58,20 @@ class AdminController():
         )
 
     def setAdmin(self, updated_info):
+        #return sendResponse(updated_info)
         for key in updated_info:
-            #return sendResponse(updated_info[key][0])
-            recomendedpolicy.updaterecpolicydata(
-                pId=key,
-                data=updated_info[key][0],
-                )
+            # if the fields exists, update it
+            if recomendedpolicy.get_policy(str(key)) != None:
+                recomendedpolicy.updaterecpolicydata(
+                    pId=str(key),
+                    data=updated_info[key],
+                    )
+            else: #otherwise create it
+                recomendedpolicy.addrecpolicy(
+                    pID=str(key),
+                    pdata=updated_info[key],
+                    )
+
 
         return redirect(url_for('front.administrator'))
 

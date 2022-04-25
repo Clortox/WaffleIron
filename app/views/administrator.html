@@ -14,7 +14,7 @@
   <div class="navbar">
     <a href="/register/">Create a User</a>
     <a href="/remove/">Remove a User</a>
-    <a href="#">Save</a>
+    <input type="submit" form="administrator-fields" value="Save">
     <a href="/logout/">Logout</a>
   </div>
 
@@ -24,15 +24,15 @@
          Syllabus Fields
       </div>
 
-      {% for i in range(0, fieldsLen) %}
-      <label for="{{ requiredFields[i] }}">
-        <div class="checklist-element" id="{{ requiredFields[i] }}-checklist" value="yes">
+      {% for i in requiredFields %}
+      <label for={{ i["pName"] }}>
+        <div class="checklist-element" id="{{ i["pName"] }}-checklist" value="yes">
             <input class="syllabus-fields" 
                    type="checkbox" 
-                   name="{{ requiredFields[i] }}" 
-                   id="{{ requiredFields[i] }}" 
+                   name="{{ i["pName"] }}"
+                   id="{{ i["pName"] }}"
                    value="yes" 
-                   onchange="displayField(this, '{{ requiredFields[i] }}')">{{ requiredFields[i] }}
+                   onchange="displayField(this, '{{ i["pName"] }}')">{{ i["pName"] }}
         </div>
       </label>
       {% endfor %}
@@ -44,16 +44,20 @@
         Departmental, College, and University Policy Statements
       </div>
 
-      {% for i in range(0, fieldsLen) %}
-        <fieldset class="fieldInfo hide" id="{{ requiredFields[i] }}-info">
-          <legend>{{ requiredFields[i] }}</legend>
+      <form action="/administrator/"
+            id="administrator-fields" method="POST">
+      {% for i in requiredFields %}
+        <fieldset class="fieldInfo hide" id="{{ i["pName"] }}-info">
+          <legend>{{ i["pName"] }}</legend>
               <textarea maxlength="1000" 
                         onkeyup="wordCounter(this)" 
-                        class="description" 
-                        name="description"></textarea>
+                        class="description"
+                        id="{{ i["pName"] }}"
+                        name="{{ i["pName"] }}">{{ i["policy_data"] }}</textarea>
               <span class="counter">Words: </span>
         </fieldset>
       {% endfor %}
+      </form>
     </div>
   </div>
 </body>
