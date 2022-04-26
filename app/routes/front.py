@@ -1,7 +1,7 @@
 from flask import Blueprint,request,json, flash
 from ..app import mongo
 from flask import render_template
-from flask import request, redirect, make_response, session, url_for
+from flask import request, redirect, make_response, session, url_for, abort
 from flask import Flask
 
 from app.controllers.HomeController import homecontroller
@@ -10,6 +10,7 @@ from app.controllers.InstructorController import instructorcontroller
 from app.controllers.SchedulerController import schedulercontroller
 from app.controllers.AdminController import admincontroller
 from app.controllers.LoginController import logincontroller
+from app.helpers.exceptions import BadRequest
 from app.helpers.Utility import sendResponse
 from app.models.User import user
 
@@ -293,11 +294,22 @@ def document(CRN):
 
 
 @front.route('/document/excel/', methods=['POST'])
+@front.route('/document/excel/<REP>', methods=['POST'])
 #@login_required
 #@scheduler_only
-def excel():
+def excel(REP=''):
+    excelDict = {}
     try:
+        if request.files['excelFile'] is None:
+            raise BadRequest
         excelDict = documentcontroller.excel(request.files['excelFile'])
-    except:
-        pass
-    return redirect(url_for('front.scheduler'))
+    except BadRequest:
+        return abort(400, 'Bad request, expected excelFile')
+    except pymongo.errors.DuplicateKeyError:
+        return abort(400, 'Invalid excel file, attempting to insert an already existing course')
+
+    # return json if interacting with API
+    if REP != '':
+        return excelDict
+    else:
+        return redirect(url_for('front.scheduler'))

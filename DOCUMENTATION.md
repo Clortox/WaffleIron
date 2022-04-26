@@ -24,7 +24,7 @@ TODO
 * Returns a `.docx` file containing the generated syllabus for the CRN
 * Generated files are not cached as of this writing
 
-/document/excel/
+/document/excel/<JSON>
 ----------------
 
 * Accepts only POST requests
@@ -33,3 +33,5 @@ TODO
   is an object defined in `app/models/ExcelData.py`
 * When the json object is returned, all data is guaranteed to be placed into
   the database
+* Be sure to send `JSON` add the end of the request to recieve a json object. If
+  you do not, the application will instead attempt to redirect you
