@@ -307,6 +307,10 @@ def excel(REP=''):
         return abort(400, 'Bad request, expected excelFile')
     except pymongo.errors.DuplicateKeyError:
         return abort(400, 'Invalid excel file, attempting to insert an already existing course')
+    except KeyError:
+        return abort(400, 'Poorly formatted document, please check document format')
+    except:
+        return abort(400, 'Poorly formatted document, or incorrect type of document')
 
     # return json if interacting with API
     if REP != '':
