@@ -157,8 +157,8 @@ def instructor(CRN=None):
 
 
 @front.route('/administrator/', methods=['GET', 'POST'])
-#@login_required
-#@admin_only
+@login_required
+@admin_only
 def administrator():
     if request.method == 'GET':
         return admincontroller.getAdmin()
@@ -174,8 +174,8 @@ def administrator():
         return admincontroller.setAdmin(updated_info)
 
 @front.route('/scheduler/', methods=['GET', 'POST'])
-#@login_required
-#@scheduler_only
+@login_required
+@scheduler_only
 def scheduler():
     if request.method == "GET":
         return schedulercontroller.getSchedule()
@@ -207,16 +207,16 @@ def scheduler():
 
 # Displays register page
 @front.route('/register/')
-#@login_required
-#@admin_only
+@login_required
+@admin_only
 def register_page():
     return render_template("register.html")
 
 
 # Handles register operations
 @front.route('/register/', methods=['POST'])
-#@login_required
-#@admin_only
+@login_required
+@admin_only
 def register():
     email = request.form['email']
     password = request.form['password']
@@ -295,8 +295,8 @@ def document(CRN):
 
 @front.route('/document/excel/', methods=['POST'])
 @front.route('/document/excel/<REP>', methods=['POST'])
-#@login_required
-#@scheduler_only
+@login_required
+@scheduler_only
 def excel(REP=''):
     excelDict = {}
     try:
