@@ -31,6 +31,59 @@ function dropdown() {
 }
 
 
+function passwordCheck() {
+	pass = document.getElementById("password").value;
+	passConfirm = document.getElementById("password-confirm").value;
+
+	console.log("pass: " + pass);
+	console.log("passConfirm: " + passConfirm);
+
+	if(pass == null) {
+		pass = "";
+	}
+	if(passConfirm == null) {
+		passConfirm = "";
+	}
+
+	var len = document.getElementById("length");
+	var number = document.getElementById("number");
+	var match = document.getElementById("match");
+	var button = document.getElementById("submit-button");
+
+	var matched = (pass == passConfirm);
+	var propLen = ((pass.length >= 12) && (pass.length <= 36));
+	var hasNum = pass.match(/\d+/g);
+
+	if(propLen) {
+		len.style.color = "green";
+	}
+	else {
+		len.style.color = "red";
+	}
+
+	if(hasNum) {
+		number.style.color = "green"
+	}
+	else {
+		number.style.color = "red"
+	}
+
+	if(matched) {
+		match.style.color = "green";
+	}
+	else {
+		match.style.color = "red";
+	}
+
+	if(matched && propLen && hasNum) {
+		button.disabled = false;
+	}
+	else {
+		button.disabled = true;
+	}
+}
+
+
 window.onclick = function(event) {
 	if(!event.target.matches('.dropdown-button')) {
 		var dropdowns = document.getElementsByClassName("course-list");

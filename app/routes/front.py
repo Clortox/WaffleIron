@@ -131,7 +131,7 @@ def updatePassword():
 @login_required
 def updatePasswordForm():
     password = request.form['password']
-    passwordConfirm = request.form['password_confirm']
+    passwordConfirm = request.form['password-confirm']
     ID = session['user_email']
 
     return logincontroller.updatePasswordPost(password, passwordConfirm, ID)
@@ -207,39 +207,39 @@ def scheduler():
 
 # Displays register page
 @front.route('/register/')
-@login_required
-@admin_only
+#@login_required
+#@admin_only
 def register_page():
     return render_template("register.html")
 
 
 # Handles register operations
 @front.route('/register/', methods=['POST'])
-@login_required
-@admin_only
+#@login_required
+#@admin_only
 def register():
     email = request.form['email']
     password = request.form['password']
-    passwordConfirm = request.form['password_confirm']
+    passwordConfirm = request.form['password-confirm']
     role = request.form['role-select']
 
     if user.userExists(email):
         flash("That user already exists.")
-        return redirect(url_for('front.register'))
+        return redirect('/register/')
 
     if password != passwordConfirm:
         flash("Sorry, the passwords do not match")
-        return redirect(url_for('front.register'))
+        return redirect('/register/')
 
     if "@kent.edu" not in email:
         flash("Please enter a KSU email.")
-        return redirect(url_for('front.register'))
+        return redirect('/register/')
 
     password = passwords.encode_password(password)
 
     user.createUser(ID=email, hash=password, role=role)
     flash("User " + email + " created with role: " + role)
-    return redirect(url_for('front.register'))
+    return redirect('/register/')
 
 
 @front.route('/remove/')

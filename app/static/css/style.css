@@ -142,9 +142,18 @@ body {
 	border: 2px solid saddlebrown;
 	border-radius: 4px;
 	margin: 100px auto;
-	width: 250px;
+	width: 500px;
 	height: 50%;
 	padding: 16px;
+}
+
+ul[title]::before {
+	content: attr(title);
+	display: block;
+	font-weight: bold;
+	text-decoration: underline;
+	padding: 4px;
+	padding-left: 0;
 }
 
 
@@ -171,6 +180,12 @@ input[type=email], input[type=password] {
 
 .sign-in:hover {
 	opacity: 0.8;
+}
+
+
+.sign-in:disabled {
+	background-color: #6699CC;
+	pointer-events: none;
 }
 
 
