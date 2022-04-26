@@ -12,7 +12,7 @@ import datetime
 from app.models.ExcelData import ExcelData
 
 # Generates a Document object containing all the info for the Syllabus
-def generateSyllabus(professor, course, CRN):
+def generateSyllabus(professor, course, CRN, reqfields):
     # Compile time settings
     # Table style setting; this table style
     table_style = 'Light Shading Accent 1' #blue alternating
@@ -56,6 +56,12 @@ def generateSyllabus(professor, course, CRN):
         if "instructor" not in field and "assistant" not in field and course["cFields"][field] != '':
             doc.add_heading(field, level=1)
             doc.add_paragraph(str(course["cFields"][field]))
+
+    # required fields
+    for field in reqfields:
+        if field["policy_data"] != '':
+            doc.add_heading(field["_id"], level=1)
+            doc.add_paragraph(field["policy_data"])
 
     return doc
 
