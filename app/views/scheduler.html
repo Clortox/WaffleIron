@@ -12,9 +12,6 @@
 
 <body>
   <div class="navbar">
-    <a href="/logout">Logout</a>
-    <input type="submit" form="scheduler-fields" value="Save">
-
     <form action="/document/excel/" 
           id="file-upload-form" 
           class="file-upload-form" 
@@ -34,6 +31,9 @@
               form="file-upload-form" 
               type="button"
               onclick="openUpload()">Upload from Excel</button>
+
+    <input type="submit" form="scheduler-fields" value="Save">
+    <a href="/logout">Logout</a>
   </div>
 
   <div class="main-div">

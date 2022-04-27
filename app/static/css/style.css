@@ -58,7 +58,7 @@ body {
 }
 
 .navbar .open-file-upload {
-	float: right;
+	float: left;
 	font-size: 16px;
 	color: white;
 	background-color: rgb(0, 57, 118);
