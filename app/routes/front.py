@@ -299,21 +299,31 @@ def document(CRN):
 @scheduler_only
 def excel(REP=''):
     excelDict = {}
+    isJson = REP != ''
     try:
         if request.files['excelFile'] is None:
             raise BadRequest
         excelDict = documentcontroller.excel(request.files['excelFile'])
     except BadRequest:
-        return abort(400, 'Bad request, expected excelFile')
+        return abort(400, 'Bad request, expected excelFile') if isJson else flash("Bad request, expected excelFile")
     except pymongo.errors.DuplicateKeyError:
-        return abort(400, 'Invalid excel file, attempting to insert an already existing course')
+        if isJson:
+            return abort(400, 'Provided excel file has already been previously inserted')
+        else:
+            flash("Provided excel file has already been previously inserted")
     except KeyError:
-        return abort(400, 'Poorly formatted document, please check document format')
+        if isJson:
+            return abort(400, 'Poorly formatted document, please check document format')
+        else:
+            flash("Poorly formatted document, please check document format")
     except:
-        return abort(400, 'Poorly formatted document, or incorrect type of document')
+        if isJson:
+            return abort(400, 'Poorly formatted document, or incorrect type of document')
+        else:
+            flash("Poorly formatted document, or incorrect type of document")
 
     # return json if interacting with API
-    if REP != '':
+    if isJson:
         return excelDict
     else:
         return redirect(url_for('front.scheduler'))
